@@ -304,6 +304,116 @@
                     display: none;
                 }
             }
+            /* ==============================
+   Responsive Hero Fix
+   ============================== */
+
+            @media (max-width: 1024px) {
+                .hero-title {
+                    font-size: clamp(4.8rem, 18vw, 9rem) !important;
+                    line-height: 0.9 !important;
+                }
+
+                .hero-name {
+                    font-size: clamp(4rem, 16vw, 8rem) !important;
+                    line-height: 0.9 !important;
+                }
+
+                .profile-card-grid {
+                    grid-template-columns: 1fr !important;
+                }
+
+                .profile-card-grid .portrait-frame {
+                    max-width: 260px;
+                }
+
+                .profile-card-grid img {
+                    width: 100%;
+                    height: auto;
+                    max-height: 360px;
+                    object-fit: cover;
+                    object-position: center 18%;
+                }
+            }
+
+            @media (max-width: 768px) {
+                header nav {
+                    display: none !important;
+                }
+
+                header .hide-mobile {
+                    display: none !important;
+                }
+
+                main section:first-of-type {
+                    padding-top: 5.5rem !important;
+                }
+
+                .hero-title {
+                    font-size: clamp(4rem, 24vw, 7rem) !important;
+                    line-height: 0.88 !important;
+                    letter-spacing: -0.04em;
+                }
+
+                .hero-name {
+                    font-size: clamp(3.8rem, 21vw, 6.5rem) !important;
+                    line-height: 0.88 !important;
+                    letter-spacing: -0.03em;
+                }
+
+                .hero-description {
+                    font-size: 1rem !important;
+                    line-height: 1.85 !important;
+                }
+
+                .profile-card {
+                    padding: 1.5rem !important;
+                }
+
+                .profile-card-grid {
+                    display: grid !important;
+                    grid-template-columns: 1fr !important;
+                    gap: 1.5rem !important;
+                }
+
+                .profile-card-grid .portrait-frame {
+                    max-width: 100%;
+                }
+
+                .profile-card-grid img {
+                    width: 100% !important;
+                    height: auto !important;
+                    max-height: none !important;
+                    object-fit: contain !important;
+                    object-position: center top !important;
+                }
+
+                .profile-info h2 {
+                    font-size: 1.8rem !important;
+                }
+
+                .profile-info p {
+                    word-break: keep-all;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .hero-title {
+                    font-size: clamp(3.2rem, 22vw, 5.2rem) !important;
+                }
+
+                .hero-name {
+                    font-size: clamp(3rem, 20vw, 5rem) !important;
+                }
+
+                .cursor {
+                    height: 0.75em;
+                }
+
+                .profile-card {
+                    padding: 1.25rem !important;
+                }
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -346,12 +456,13 @@
                                 IT Infrastructure & Security Operations
                             </div>
                             <h1
-                                class="font-sans font-extrabold tracking-tight leading-[.92] text-[15vw] md:text-[10vw] lg:text-[7.6vw] text-fg"
+                                class="hero-title font-sans font-extrabold tracking-tight leading-[.92] text-[15vw] md:text-[10vw] lg:text-[7.6vw] text-fg"
                             >
-                                HONG<br /><span class="font-serif italic font-normal text-accent glow">Seongwon</span
+                                HONG<br />
+                                <span class="hero-name font-serif italic font-normal text-accent glow">Seongwon</span
                                 ><span class="cursor"></span>
                             </h1>
-                            <p class="mt-8 max-w-4xl text-lg md:text-xl leading-9 text-fg/72">
+                            <p class="hero-description mt-12 max-w-4xl text-lg md:text-xl leading-9 text-fg/72">
                                 FortiGate 기반 네트워크 보안, SSL VPN 접근통제, EPP/DRM 엔드포인트 보안솔루션 운영,
                                 Linux 서버 운영과 IT 자산·계정 관리를 수행해온 정보보안 및 IT 인프라 운영 담당자입니다.
                                 <br class="hidden md:block" />
@@ -381,9 +492,9 @@
                             </div>
                         </div>
                         <aside class="col-span-12 lg:col-span-4 reveal">
-                            <div class="corner border border-line bg-surface/80 backdrop-blur-sm p-5">
+                            <div class="profile-card corner border border-line bg-surface/80 backdrop-blur-sm p-5">
                                 <span class="c1"></span><span class="c2"></span>
-                                <div class="grid grid-cols-[220px_1fr] gap-7 items-center">
+                                <div class="profile-card-grid grid grid-cols-[220px_1fr] gap-7 items-center">
                                     <div class="portrait-frame rounded-xl p-[1px]">
                                         <img
                                             src="./profile.jpg"
@@ -636,7 +747,7 @@
                                     <div class="font-mono text-xs text-accent mb-3">[ IT OPS / SECURITY ]</div>
                                     <ul class="space-y-2 text-sm text-fg/75 leading-6">
                                         <li>IT 자산 구매·운영·폐기·재고관리</li>
-                                        <li>Google Workspace, 라이선스, 도메인, 소프트웨어 자산 운영관리</li>                         
+                                        <li>Google Workspace, 라이선스, 도메인, 소프트웨어 자산 운영관리</li>
                                         <li>ISMS 보호대책 요구사항 기반 접근통제·인증·권한관리 운영</li>
                                         <li>사옥 이전에 따른 네트워크·보안 인프라 재구축 및 안정화 수행</li>
                                         <li>IT 유휴·불용자산 처리 체계 개선 및 한국IT진흥원 협력/MOU 추진</li>
@@ -663,9 +774,9 @@
                                 <div class="border-l border-line2 pl-5">
                                     <div class="font-mono text-xs text-accent mb-3">[ NETWORK SECURITY ]</div>
                                     <ul class="space-y-2 text-sm text-fg/75 leading-6">
-                                        <li>FortiGate UTM 기반 방화벽 정책, NAT, VIP, SSL VPN 접근통제 운영</li>  
+                                        <li>FortiGate UTM 기반 방화벽 정책, NAT, VIP, SSL VPN 접근통제 운영</li>
                                         <li>SSL VPN 사용자 계정 및 그룹 기반 권한 정책 운영</li>
-                                        <li>NAT, VIP, 라우팅, 정책 우선순위 기반 트래픽 분석</li>    
+                                        <li>NAT, VIP, 라우팅, 정책 우선순위 기반 트래픽 분석</li>
                                         <li>Linux 서버 장애 대응 및 보안 설정 가이드 문서화</li>
                                     </ul>
                                 </div>
