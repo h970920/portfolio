@@ -744,6 +744,51 @@ details[open] .chev {
 }
 
 /* ==============================
+   AI Portfolio Project Card
+   ============================== */
+
+.ai-project-card {
+    overflow: hidden;
+    position: relative;
+}
+
+.ai-project-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background:
+        radial-gradient(circle at 18% 12%, rgba(125, 255, 182, 0.16), transparent 28%),
+        radial-gradient(circle at 86% 22%, rgba(107, 180, 255, 0.14), transparent 30%),
+        linear-gradient(135deg, rgba(125, 255, 182, 0.04), transparent 48%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.ai-project-card:hover::before {
+    opacity: 1;
+}
+
+.ai-project-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.ai-project-card:hover {
+    border-color: rgba(125, 255, 182, 0.48);
+    box-shadow:
+        0 0 40px rgba(125, 255, 182, 0.07),
+        inset 0 0 28px rgba(125, 255, 182, 0.025);
+}
+
+@media (max-width: 768px) {
+    .ai-project-card .flex.items-start.justify-between {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ==============================
    Reduced Motion
    ============================== */
 
