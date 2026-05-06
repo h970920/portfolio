@@ -1,7 +1,17 @@
+/* =========================================================
+   HONG SEONGWON Portfolio
+   Security Console UI / Responsive CSS
+   ========================================================= */
+
+/* ==============================
+   Base
+   ============================== */
+
 html {
     scroll-behavior: smooth;
     background: #080d0b;
 }
+
 body {
     margin: 0;
     background:
@@ -12,7 +22,8 @@ body {
     font-family: Pretendard, system-ui, sans-serif;
     overflow-x: hidden;
 }
-body:before {
+
+body::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -27,21 +38,46 @@ body:before {
     );
     mix-blend-mode: overlay;
 }
+
 ::selection {
     background: #7dffb6;
     color: #080d0b;
 }
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ==============================
+   Background / Console Effects
+   ============================== */
+
 .grid-bg {
     background-image:
         linear-gradient(rgba(125, 255, 182, 0.045) 1px, transparent 1px),
         linear-gradient(90deg, rgba(125, 255, 182, 0.045) 1px, transparent 1px);
     background-size: 58px 58px;
 }
+
+.glow {
+    text-shadow: 0 0 26px rgba(125, 255, 182, 0.45);
+}
+
+/* ==============================
+   Corner Frame
+   ============================== */
+
 .corner {
     position: relative;
 }
-.corner:before,
-.corner:after,
+
+.corner::before,
+.corner::after,
 .corner > .c1,
 .corner > .c2 {
     content: '';
@@ -50,37 +86,48 @@ body:before {
     height: 14px;
     border: 1px solid rgba(125, 255, 182, 0.55);
     transition: 0.25s ease;
+    pointer-events: none;
 }
-.corner:before {
+
+.corner::before {
     top: -1px;
     left: -1px;
     border-right: none;
     border-bottom: none;
 }
-.corner:after {
+
+.corner::after {
     top: -1px;
     right: -1px;
     border-left: none;
     border-bottom: none;
 }
+
 .corner > .c1 {
     bottom: -1px;
     left: -1px;
     border-right: none;
     border-top: none;
 }
+
 .corner > .c2 {
     bottom: -1px;
     right: -1px;
     border-left: none;
     border-top: none;
 }
-.corner:hover:before,
-.corner:hover:after,
+
+.corner:hover::before,
+.corner:hover::after,
 .corner:hover > .c1,
 .corner:hover > .c2 {
     border-color: rgba(125, 255, 182, 1);
 }
+
+/* ==============================
+   Reveal Animation
+   ============================== */
+
 .reveal {
     opacity: 0;
     transform: translateY(28px) scale(0.985);
@@ -100,9 +147,11 @@ body:before {
     filter: blur(0);
     clip-path: inset(0 0 0 0);
 }
-.glow {
-    text-shadow: 0 0 26px rgba(125, 255, 182, 0.45);
-}
+
+/* ==============================
+   Cursor Animation
+   ============================== */
+
 .cursor {
     display: inline-block;
     width: 0.55ch;
@@ -112,15 +161,22 @@ body:before {
     vertical-align: -0.08em;
     animation: blink 1s step-end infinite;
 }
+
 @keyframes blink {
     50% {
         opacity: 0;
     }
 }
+
+/* ==============================
+   Pulse Dot
+   ============================== */
+
 .dot-pulse {
     position: relative;
 }
-.dot-pulse:after {
+
+.dot-pulse::after {
     content: '';
     position: absolute;
     inset: -5px;
@@ -129,31 +185,46 @@ body:before {
     opacity: 0.35;
     animation: pulse 2s ease-out infinite;
 }
+
 @keyframes pulse {
     from {
         transform: scale(0.75);
         opacity: 0.45;
     }
+
     to {
         transform: scale(2.3);
         opacity: 0;
     }
 }
+
+/* ==============================
+   Marquee
+   ============================== */
+
 .marquee-track {
     animation: scroll-x 42s linear infinite;
 }
+
 @keyframes scroll-x {
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-50%);
     }
 }
+
+/* ==============================
+   Navigation
+   ============================== */
+
 .nav-link {
     position: relative;
 }
-.nav-link:after {
+
+.nav-link::after {
     content: '';
     position: absolute;
     left: 0;
@@ -163,10 +234,16 @@ body:before {
     background: #7dffb6;
     transition: 0.25s ease;
 }
-.nav-link:hover:after {
+
+.nav-link:hover::after {
     width: 100%;
 }
-.rail:before {
+
+/* ==============================
+   Timeline / Rail
+   ============================== */
+
+.rail::before {
     content: '';
     position: absolute;
     left: 0;
@@ -175,29 +252,68 @@ body:before {
     width: 1px;
     background: linear-gradient(to bottom, transparent, #2d4036 12%, #2d4036 88%, transparent);
 }
+
 .hex {
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
+
+/* ==============================
+   Row / Card Hover
+   ============================== */
+
 .row-hover {
-    transition: 0.22s ease;
+    transition:
+        background 0.22s ease,
+        transform 0.22s ease,
+        border-color 0.22s ease;
 }
+
 .row-hover:hover {
     background: rgba(125, 255, 182, 0.045);
     transform: translateX(4px);
 }
+
+.project-card {
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+    border-color: rgba(125, 255, 182, 0.38);
+    box-shadow: 0 0 36px rgba(125, 255, 182, 0.055);
+}
+
+.project-card.hide {
+    display: none;
+}
+
+/* ==============================
+   Live Log
+   ============================== */
+
 .log-row {
     animation: log-in 0.25s ease;
 }
+
 @keyframes log-in {
     from {
         opacity: 0;
         transform: translateX(-8px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
     }
 }
+
+/* ==============================
+   Boot Screen
+   ============================== */
+
 .boot {
     position: fixed;
     inset: 0;
@@ -210,46 +326,105 @@ body:before {
     font-family: 'JetBrains Mono', monospace;
     transition: 0.55s ease;
 }
+
 .boot.done {
     opacity: 0;
     visibility: hidden;
 }
+
 .boot pre {
     font-size: 12px;
     line-height: 1.7;
     white-space: pre-wrap;
 }
+
+/* ==============================
+   Filters / Details
+   ============================== */
+
+.tag-filter {
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.tag-filter:hover {
+    transform: translateY(-1px);
+    border-color: rgba(125, 255, 182, 0.45);
+}
+
 .tag-filter.active {
     background: #7dffb6;
     color: #08100c;
     border-color: #7dffb6;
 }
-.project-card.hide {
-    display: none;
-}
+
 details > summary {
     list-style: none;
     cursor: pointer;
 }
+
 details > summary::-webkit-details-marker {
     display: none;
 }
+
 details[open] .chev {
     transform: rotate(90deg);
 }
+
 .chev {
     transition: 0.25s ease;
 }
+
+/* ==============================
+   Runbook PDF Links
+   ============================== */
+
+#runbookGrid a,
+#runbookGrid li a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    color: rgba(225, 232, 227, 0.78);
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#runbookGrid a:hover,
+#runbookGrid li a:hover {
+    color: #7dffb6;
+    transform: translateX(2px);
+}
+
+/* ==============================
+   Profile
+   ============================== */
+
 .portrait-frame {
     background: linear-gradient(135deg, rgba(125, 255, 182, 0.22), rgba(107, 180, 255, 0.08));
 }
-@media (max-width: 768px) {
-    .hide-mobile {
-        display: none;
-    }
+
+.profile-card {
+    min-height: 100%;
 }
+
+.profile-card-grid img {
+    image-rendering: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.profile-info h2,
+.profile-info p {
+    word-break: keep-all;
+}
+
 /* ==============================
-   Responsive Hero Fix
+   Responsive Hero / Profile
    ============================== */
 
 @media (max-width: 1024px) {
@@ -263,24 +438,42 @@ details[open] .chev {
         line-height: 0.9 !important;
     }
 
+    .hero-description {
+        max-width: 100% !important;
+    }
+
     .profile-card-grid {
         grid-template-columns: 1fr !important;
     }
 
     .profile-card-grid .portrait-frame {
-        max-width: 260px;
+        max-width: 320px;
     }
 
     .profile-card-grid img {
         width: 100%;
         height: auto;
-        max-height: 360px;
+        max-height: 420px;
         object-fit: cover;
         object-position: center 18%;
+    }
+
+    section {
+        overflow-x: hidden;
+    }
+
+    .project-card,
+    details.reveal,
+    .corner {
+        max-width: 100%;
     }
 }
 
 @media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+
     header nav {
         display: none !important;
     }
@@ -291,6 +484,11 @@ details[open] .chev {
 
     main section:first-of-type {
         padding-top: 5.5rem !important;
+    }
+
+    section {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
     }
 
     .hero-title {
@@ -306,8 +504,10 @@ details[open] .chev {
     }
 
     .hero-description {
+        margin-top: 2.6rem !important;
         font-size: 1rem !important;
         line-height: 1.85 !important;
+        word-break: keep-all;
     }
 
     .profile-card {
@@ -341,7 +541,170 @@ details[open] .chev {
     }
 }
 
+/* ==============================
+   Responsive Lower Sections
+   ============================== */
+
+@media (max-width: 768px) {
+    h2 {
+        word-break: keep-all;
+    }
+
+    .text-4xl,
+    .md\:text-6xl {
+        font-size: clamp(2.2rem, 10vw, 3.5rem) !important;
+        line-height: 1.08 !important;
+    }
+
+    .font-serif.text-xl,
+    .text-xl {
+        font-size: 1rem !important;
+        line-height: 1.7 !important;
+    }
+
+    /* Project Case Files */
+    .project-card {
+        grid-column: span 12 / span 12 !important;
+        padding: 1.35rem !important;
+    }
+
+    .project-card h3 {
+        font-size: 1.35rem !important;
+        line-height: 1.35 !important;
+        word-break: keep-all;
+    }
+
+    .project-card p {
+        font-size: 0.92rem !important;
+        line-height: 1.75 !important;
+        word-break: keep-all;
+    }
+
+    #projectSearch {
+        min-width: 0;
+    }
+
+    /* Runbook Library */
+    #runbookGrid > * {
+        grid-column: span 12 / span 12 !important;
+    }
+
+    details.reveal {
+        padding: 1.35rem !important;
+    }
+
+    details.reveal li {
+        align-items: flex-start;
+        line-height: 1.65;
+    }
+
+    #runbookGrid a,
+    #runbookGrid li a {
+        align-items: flex-start;
+    }
+
+    #runbookGrid a::after,
+    #runbookGrid li a::after {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    /* Stack / Career / AI / Content / Certs / Contact */
+    #stack .grid,
+    #career .grid,
+    #certs .grid,
+    #contact .grid,
+    #ai .grid,
+    #content .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #stack .row-hover {
+        display: block !important;
+        padding: 1.25rem !important;
+    }
+
+    #stack .row-hover > div {
+        margin-bottom: 0.85rem;
+    }
+
+    #stack .row-hover > div:last-child {
+        margin-bottom: 0;
+    }
+
+    #career article {
+        padding-right: 0 !important;
+    }
+
+    #career h3 {
+        font-size: 1.55rem !important;
+        line-height: 1.35 !important;
+        word-break: keep-all;
+    }
+
+    #career li {
+        font-size: 0.92rem !important;
+        line-height: 1.75 !important;
+        word-break: keep-all;
+    }
+
+    #career .rail {
+        padding-left: 1.6rem !important;
+    }
+
+    #certs .grid-cols-12 {
+        grid-template-columns: 1fr !important;
+    }
+
+    #certs .row-hover {
+        display: block !important;
+        padding: 0.9rem 0.4rem !important;
+    }
+
+    #certs .row-hover > div {
+        text-align: left !important;
+        margin-bottom: 0.35rem;
+    }
+
+    #certs .row-hover > div:last-child {
+        margin-bottom: 0;
+    }
+
+    #ai article,
+    #content article {
+        grid-column: span 12 / span 12 !important;
+        padding: 1.4rem !important;
+    }
+
+    #ai h3,
+    #content h3 {
+        font-size: 1.45rem !important;
+        line-height: 1.35 !important;
+        word-break: keep-all;
+    }
+
+    #contact h2 {
+        font-size: clamp(2.8rem, 14vw, 4.5rem) !important;
+        line-height: 0.98 !important;
+    }
+
+    footer > div {
+        align-items: flex-start !important;
+        text-align: left;
+        gap: 0.75rem;
+    }
+}
+
+/* ==============================
+   Small Mobile
+   ============================== */
+
 @media (max-width: 480px) {
+    section {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
     .hero-title {
         font-size: clamp(3.2rem, 22vw, 5.2rem) !important;
     }
@@ -356,5 +719,48 @@ details[open] .chev {
 
     .profile-card {
         padding: 1.25rem !important;
+    }
+
+    .tag-filter {
+        flex: 1 1 auto;
+    }
+
+    .row-hover:hover {
+        transform: none;
+    }
+
+    .corner::before,
+    .corner::after,
+    .corner > .c1,
+    .corner > .c2 {
+        width: 10px;
+        height: 10px;
+    }
+
+    #runbookGrid a::after,
+    #runbookGrid li a::after {
+        display: none;
+    }
+}
+
+/* ==============================
+   Reduced Motion
+   ============================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        clip-path: none;
     }
 }
