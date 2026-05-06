@@ -48,6 +48,7 @@ const logs = [
     'linux: xfs_repair note mounted — PowerEdge R450 recovery case verified',
     'gitbook: card.payprotocol.io / help.payprotocol.io ownership verified',
     'youtube: Paycoin channel contents indexed — shorts & 16:9 videos',
+    'ai-lab: AI asset management dashboard deployed — csv import and risk scoring enabled',
     'runbook: FortiGate VPN account guide loaded — MFA required',
     'drm: document security workflow indexed — export approval process found',
     'lb: safe.payprotocol.io VIP + SSL offloading case available',
@@ -66,6 +67,17 @@ function pushLog() {
 for (let i = 0; i < 4; i++) pushLog();
 setInterval(pushLog, 1700);
 const projects = [
+    {
+        id: 'CASE-012',
+        title: 'AI 기반 IT 자산관리 자동 분류 시스템',
+        cat: ['ops', 'security', 'content'],
+        period: '2026',
+        severity: 'LOW',
+        tools: ['HTML', 'CSS', 'JavaScript', 'CSV Import', 'AI Rules', 'Asset Dashboard'],
+        summary:
+            'IT 자산 데이터를 CSV로 업로드하면 자산 유형, 사용 상태, 점검 필요 여부, 리스크 등급을 자동 분류하고 대시보드 형태로 시각화하는 AI 기반 IT 자산관리 웹 솔루션을 제작했습니다.',
+        impact: 'IT 자산 현행화, 불용자산 식별, 보안 점검 우선순위 산정, 자산관리 업무 자동화 가능성을 포트폴리오 프로젝트로 구현',
+    },
     {
         id: 'CASE-001',
         title: 'FortiGate 기반 L4 분리 및 무중단 배포',
@@ -243,6 +255,11 @@ const skills = [
         86,
     ],
     ['Documentation / AI', 'Notion, GitBook, Canva, ChatGPT, Claude 기반 운영 매뉴얼·웹 포트폴리오 제작', 92],
+    [
+        'AI Asset Management',
+        'CSV 기반 IT 자산 데이터 업로드, 자산 유형 자동 분류, 리스크 등급 산정, 대시보드 시각화 프로토타입 제작',
+        88,
+    ],
 ];
 
 const linkMap = {
