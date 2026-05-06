@@ -789,6 +789,51 @@ details[open] .chev {
 }
 
 /* ==============================
+   Firewall Risk Reviewer Project Card
+   ============================== */
+
+.firewall-project-card {
+    overflow: hidden;
+    position: relative;
+}
+
+.firewall-project-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background:
+        radial-gradient(circle at 16% 10%, rgba(255, 107, 107, 0.18), transparent 30%),
+        radial-gradient(circle at 86% 18%, rgba(255, 214, 107, 0.14), transparent 28%),
+        linear-gradient(135deg, rgba(255, 107, 107, 0.05), transparent 48%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.firewall-project-card:hover::before {
+    opacity: 1;
+}
+
+.firewall-project-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.firewall-project-card:hover {
+    border-color: rgba(255, 107, 107, 0.5);
+    box-shadow:
+        0 0 40px rgba(255, 107, 107, 0.075),
+        inset 0 0 28px rgba(255, 214, 107, 0.025);
+}
+
+@media (max-width: 768px) {
+    .firewall-project-card .flex.items-start.justify-between {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ==============================
    Reduced Motion
    ============================== */
 
