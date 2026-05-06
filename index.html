@@ -1,0 +1,1402 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HONG SEONGWON | Security Operations Portfolio 2026</title>
+        <meta
+            name="description"
+            content="홍성원 IT 인프라·정보보안 운영 포트폴리오 — FortiGate, SSL VPN, L4 Load Balancing, Linux, EPP/DRM, ISMS, Paycoin GitBook Contents"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+        />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            function applyTailwindConfig() {
+                if (!window.tailwind) return;
+
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            fontFamily: {
+                                mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                                serif: ['Instrument Serif', 'ui-serif', 'serif'],
+                                sans: ['Pretendard', 'system-ui', 'sans-serif'],
+                            },
+                            colors: {
+                                ink: '#080D0B',
+                                surface: '#0E1512',
+                                surface2: '#141E19',
+                                line: '#203029',
+                                line2: '#2D4036',
+                                dim: '#64746B',
+                                mid: '#95A59C',
+                                fg: '#E1E8E3',
+                                accent: '#7DFFB6',
+                                accent2: '#FFD66B',
+                                accent3: '#FF6B6B',
+                                accent4: '#6BB4FF',
+                                violet: '#B69BFF',
+                            },
+                        },
+                    },
+                };
+            }
+
+            applyTailwindConfig();
+        </script>
+        <style>
+            html {
+                scroll-behavior: smooth;
+                background: #080d0b;
+            }
+            body {
+                margin: 0;
+                background:
+                    radial-gradient(circle at 14% -5%, rgba(125, 255, 182, 0.08), transparent 34%),
+                    radial-gradient(circle at 88% 12%, rgba(107, 180, 255, 0.07), transparent 32%),
+                    radial-gradient(circle at 50% 100%, rgba(182, 155, 255, 0.06), transparent 40%), #080d0b;
+                color: #e1e8e3;
+                font-family: Pretendard, system-ui, sans-serif;
+                overflow-x: hidden;
+            }
+            body:before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                z-index: 100;
+                background: repeating-linear-gradient(
+                    0deg,
+                    rgba(255, 255, 255, 0.014) 0,
+                    rgba(255, 255, 255, 0.014) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
+                mix-blend-mode: overlay;
+            }
+            ::selection {
+                background: #7dffb6;
+                color: #080d0b;
+            }
+            .grid-bg {
+                background-image:
+                    linear-gradient(rgba(125, 255, 182, 0.045) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(125, 255, 182, 0.045) 1px, transparent 1px);
+                background-size: 58px 58px;
+            }
+            .corner {
+                position: relative;
+            }
+            .corner:before,
+            .corner:after,
+            .corner > .c1,
+            .corner > .c2 {
+                content: '';
+                position: absolute;
+                width: 14px;
+                height: 14px;
+                border: 1px solid rgba(125, 255, 182, 0.55);
+                transition: 0.25s ease;
+            }
+            .corner:before {
+                top: -1px;
+                left: -1px;
+                border-right: none;
+                border-bottom: none;
+            }
+            .corner:after {
+                top: -1px;
+                right: -1px;
+                border-left: none;
+                border-bottom: none;
+            }
+            .corner > .c1 {
+                bottom: -1px;
+                left: -1px;
+                border-right: none;
+                border-top: none;
+            }
+            .corner > .c2 {
+                bottom: -1px;
+                right: -1px;
+                border-left: none;
+                border-top: none;
+            }
+            .corner:hover:before,
+            .corner:hover:after,
+            .corner:hover > .c1,
+            .corner:hover > .c2 {
+                border-color: rgba(125, 255, 182, 1);
+            }
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px) scale(0.985);
+                filter: blur(8px);
+                clip-path: inset(0 0 18% 0);
+                transition:
+                    opacity 0.8s ease,
+                    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 0.9s ease,
+                    clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+                will-change: opacity, transform, filter, clip-path;
+            }
+
+            .reveal.in {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+                clip-path: inset(0 0 0 0);
+            }
+            .glow {
+                text-shadow: 0 0 26px rgba(125, 255, 182, 0.45);
+            }
+            .cursor {
+                display: inline-block;
+                width: 0.55ch;
+                height: 0.92em;
+                margin-left: 4px;
+                background: #7dffb6;
+                vertical-align: -0.08em;
+                animation: blink 1s step-end infinite;
+            }
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+            .dot-pulse {
+                position: relative;
+            }
+            .dot-pulse:after {
+                content: '';
+                position: absolute;
+                inset: -5px;
+                border-radius: 999px;
+                background: #7dffb6;
+                opacity: 0.35;
+                animation: pulse 2s ease-out infinite;
+            }
+            @keyframes pulse {
+                from {
+                    transform: scale(0.75);
+                    opacity: 0.45;
+                }
+                to {
+                    transform: scale(2.3);
+                    opacity: 0;
+                }
+            }
+            .marquee-track {
+                animation: scroll-x 42s linear infinite;
+            }
+            @keyframes scroll-x {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(-50%);
+                }
+            }
+            .nav-link {
+                position: relative;
+            }
+            .nav-link:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -5px;
+                width: 0;
+                height: 1px;
+                background: #7dffb6;
+                transition: 0.25s ease;
+            }
+            .nav-link:hover:after {
+                width: 100%;
+            }
+            .rail:before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 1px;
+                background: linear-gradient(to bottom, transparent, #2d4036 12%, #2d4036 88%, transparent);
+            }
+            .hex {
+                clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            }
+            .row-hover {
+                transition: 0.22s ease;
+            }
+            .row-hover:hover {
+                background: rgba(125, 255, 182, 0.045);
+                transform: translateX(4px);
+            }
+            .log-row {
+                animation: log-in 0.25s ease;
+            }
+            @keyframes log-in {
+                from {
+                    opacity: 0;
+                    transform: translateX(-8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            .boot {
+                position: fixed;
+                inset: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #080d0b;
+                color: #7dffb6;
+                font-family: 'JetBrains Mono', monospace;
+                transition: 0.55s ease;
+            }
+            .boot.done {
+                opacity: 0;
+                visibility: hidden;
+            }
+            .boot pre {
+                font-size: 12px;
+                line-height: 1.7;
+                white-space: pre-wrap;
+            }
+            .tag-filter.active {
+                background: #7dffb6;
+                color: #08100c;
+                border-color: #7dffb6;
+            }
+            .project-card.hide {
+                display: none;
+            }
+            details > summary {
+                list-style: none;
+                cursor: pointer;
+            }
+            details > summary::-webkit-details-marker {
+                display: none;
+            }
+            details[open] .chev {
+                transform: rotate(90deg);
+            }
+            .chev {
+                transition: 0.25s ease;
+            }
+            .portrait-frame {
+                background: linear-gradient(135deg, rgba(125, 255, 182, 0.22), rgba(107, 180, 255, 0.08));
+            }
+            @media (max-width: 768px) {
+                .hide-mobile {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div id="boot" class="boot"><pre id="bootText" class="px-6 max-w-2xl"></pre></div>
+        <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-ink/75 border-b border-line">
+            <div
+                class="max-w-[1440px] mx-auto px-5 lg:px-10 h-14 flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-mid"
+            >
+                <div class="flex items-center gap-4">
+                    <span class="dot-pulse w-2 h-2 rounded-full bg-accent"></span
+                    ><span class="text-fg">HONG.SEONGWON // SECOPS PORTFOLIO</span
+                    ><span class="hide-mobile text-dim">v2026</span>
+                </div>
+                <nav class="hidden lg:flex items-center gap-7">
+                    <a class="nav-link hover:text-accent" href="#brief">brief</a
+                    ><a class="nav-link hover:text-accent" href="#cases">case_files</a
+                    ><a class="nav-link hover:text-accent" href="#runbooks">runbooks</a
+                    ><a class="nav-link hover:text-accent" href="#stack">stack</a
+                    ><a class="nav-link hover:text-accent" href="#career">career</a
+                    ><a class="nav-link hover:text-accent" href="#ai">ai_lab</a
+                    ><a class="nav-link hover:text-accent" href="#content">content</a
+                    ><a class="nav-link hover:text-accent" href="#certs">certs</a
+                    ><a class="nav-link hover:text-accent" href="#contact">contact</a>
+                </nav>
+                <div id="clock" class="hide-mobile text-fg tabular-nums">--:--:-- KST</div>
+            </div>
+        </header>
+        <main>
+            <section class="relative pt-24 pb-20 px-5 lg:px-10 grid-bg overflow-hidden">
+                <div class="max-w-[1440px] mx-auto">
+                    <div
+                        class="flex items-center gap-4 font-mono text-[11px] uppercase tracking-[.28em] text-dim mb-12"
+                    >
+                        <span class="text-accent">●</span><span>file://portfolio/security-operations/hong-seongwon</span
+                        ><span class="hide-mobile">last_updated: 2026</span>
+                    </div>
+                    <div class="grid grid-cols-12 gap-8 items-end">
+                        <div class="col-span-12 lg:col-span-8">
+                            <div class="font-mono text-[11px] uppercase tracking-[.35em] text-accent mb-5">
+                                IT Infrastructure & Security Operations
+                            </div>
+                            <h1
+                                class="font-sans font-extrabold tracking-tight leading-[.92] text-[15vw] md:text-[10vw] lg:text-[7.6vw] text-fg"
+                            >
+                                HONG<br /><span class="font-serif italic font-normal text-accent glow">Seongwon</span
+                                ><span class="cursor"></span>
+                            </h1>
+                            <p class="mt-8 max-w-4xl text-lg md:text-xl leading-9 text-fg/72">
+                                FortiGate 기반 네트워크 보안, SSL VPN 접근통제, EPP/DRM 엔드포인트 보안솔루션 운영,
+                                Linux 서버 운영과 IT 자산·계정 관리를 수행해온 정보보안 및 IT 인프라 운영 담당자입니다.
+                                <br class="hidden md:block" />
+                                <br />
+                                정보보안 실무 및 IT전산지원 업무, 운영 문서화, 사용자 가이드 구축, Paycoin 마케팅 콘텐츠
+                                제작 경험을 바탕으로 기술 운영과 사용자 커뮤니케이션을 함께 이해합니다.
+                            </p>
+                            <div class="mt-8 flex flex-wrap gap-2">
+                                <span
+                                    class="px-3 py-1.5 border border-accent/25 bg-accent/10 text-accent text-xs font-mono"
+                                    >FORTIGATE</span
+                                ><span
+                                    class="px-3 py-1.5 border border-accent4/25 bg-accent4/10 text-accent4 text-xs font-mono"
+                                    >SSL VPN</span
+                                ><span
+                                    class="px-3 py-1.5 border border-accent2/25 bg-accent2/10 text-accent2 text-xs font-mono"
+                                    >LINUX</span
+                                ><span
+                                    class="px-3 py-1.5 border border-violet/25 bg-violet/10 text-violet text-xs font-mono"
+                                    >EPP / DRM</span
+                                ><span
+                                    class="px-3 py-1.5 border border-accent3/25 bg-accent3/10 text-accent3 text-xs font-mono"
+                                    >ISMS</span
+                                ><span class="px-3 py-1.5 border border-line2 bg-surface text-mid text-xs font-mono"
+                                    >GITBOOK / VIDEO</span
+                                >
+                            </div>
+                        </div>
+                        <aside class="col-span-12 lg:col-span-4 reveal">
+                            <div class="corner border border-line bg-surface/80 backdrop-blur-sm p-5">
+                                <span class="c1"></span><span class="c2"></span>
+                                <div class="grid grid-cols-[220px_1fr] gap-7 items-center">
+                                    <div class="portrait-frame rounded-xl p-[1px]">
+                                        <img
+                                            src="./profile.jpg"
+                                            alt="HONG SEONGWON profile photo"
+                                            class="w-full h-[360px] object-cover object-[center_18%] rounded-xl bg-surface2"
+                                        />
+                                    </div>
+                                    <div>
+                                        <div class="font-mono text-[10px] uppercase tracking-widest text-dim mb-2">
+                                            profile.json
+                                        </div>
+                                        <h2 class="text-2xl font-bold text-fg">홍성원</h2>
+                                        <p class="text-sm text-mid mt-1">HONG SEONGWON</p>
+                                        <p class="text-sm text-mid mt-1">1997 · 경기 용인</p>
+                                        <p class="text-sm leading-6 text-fg/70 mt-4">
+                                            정보보안 및 IT인프라 운영 담당자
+                                        </p>
+                                    </div>
+                                </div>
+                                <dl class="mt-5 space-y-2 font-mono text-[12px]">
+                                    <div class="flex justify-between border-b border-line2 pb-2">
+                                        <dt class="text-dim">experience</dt>
+                                        <dd class="text-fg">2Y 1M</dd>
+                                    </div>
+                                    <div class="flex justify-between border-b border-line2 pb-2">
+                                        <dt class="text-dim">promotion</dt>
+                                        <dd class="text-accent">within 1Y</dd>
+                                    </div>
+                                    <div class="flex justify-between border-b border-line2 pb-2">
+                                        <dt class="text-dim">contents</dt>
+                                        <dd class="text-fg">GitBook + 24 videos</dd>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <dt class="text-dim">status</dt>
+                                        <dd class="text-accent flex items-center gap-2">
+                                            <span class="dot-pulse w-1.5 h-1.5 rounded-full bg-accent"></span
+                                            >OPEN_TO_WORK
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="mt-14 corner border border-line bg-surface/65 backdrop-blur-sm">
+                        <span class="c1"></span><span class="c2"></span>
+                        <div
+                            class="flex items-center justify-between px-4 py-2 border-b border-line text-[10px] font-mono uppercase tracking-widest text-mid"
+                        >
+                            <div class="flex items-center gap-3">
+                                <span class="dot-pulse w-1.5 h-1.5 rounded-full bg-accent"></span>live // operations_log
+                            </div>
+                            <span class="hide-mobile">tail -f /var/log/security-portfolio</span>
+                        </div>
+                        <div id="liveLogs" class="p-4 font-mono text-[12px] space-y-1 min-h-[174px]"></div>
+                    </div>
+                </div>
+            </section>
+            <div class="border-y border-line py-6 overflow-hidden bg-surface/30">
+                <div
+                    class="marquee-track flex gap-10 font-sans font-extrabold text-3xl md:text-5xl text-fg/25 whitespace-nowrap"
+                >
+                    <span
+                        >FORTIGATE / SSL VPN / L4 LOAD BALANCING / LINUX RECOVERY / EPP / DRM / GITBOOK / PAYCOIN
+                        CONTENTS / AI AUTOMATION /</span
+                    ><span
+                        >FORTIGATE / SSL VPN / L4 LOAD BALANCING / LINUX RECOVERY / EPP / DRM / GITBOOK / PAYCOIN
+                        CONTENTS / AI AUTOMATION /</span
+                    >
+                </div>
+            </div>
+            <section id="brief" class="px-5 lg:px-10 py-24">
+                <div class="max-w-[1440px] mx-auto grid grid-cols-12 gap-8">
+                    <div class="col-span-12 lg:col-span-5 reveal">
+                        <div class="font-mono text-[11px] uppercase tracking-[.3em] text-accent mb-4">
+                            // 01 / brief
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight leading-tight text-fg">
+                            운영 경험을<br /><span class="font-serif italic font-normal text-accent"
+                                >증명 가능한 산출물</span
+                            >로 남깁니다.
+                        </h2>
+                    </div>
+                    <div class="col-span-12 lg:col-span-7 reveal">
+                        <p class="text-2xl md:text-3xl leading-relaxed font-light text-fg">
+                            방화벽 정책, VPN 접근통제, 엔드포인트 보안, Linux 서버 운영, 계정·권한관리, 업무 문서화,
+                            사용자 가이드와 콘텐츠 제작까지 연결해 조직의 안정적인 IT 운영 환경을 만드는 실무형
+                            담당자입니다.
+                        </p>
+                        <div class="mt-8 grid md:grid-cols-4 gap-4">
+                            <div class="corner border border-line bg-surface p-5">
+                                <span class="c1"></span><span class="c2"></span>
+                                <div class="text-3xl font-mono text-accent">24</div>
+                                <div class="mt-2 text-sm text-mid">검토 기반 산출물</div>
+                            </div>
+                            <div class="corner border border-line bg-surface p-5">
+                                <span class="c1"></span><span class="c2"></span>
+                                <div class="text-3xl font-mono text-accent2">11</div>
+                                <div class="mt-2 text-sm text-mid">대표 Case Files</div>
+                            </div>
+                            <div class="corner border border-line bg-surface p-5">
+                                <span class="c1"></span><span class="c2"></span>
+                                <div class="text-3xl font-mono text-accent4">20+</div>
+                                <div class="mt-2 text-sm text-mid">운영 매뉴얼</div>
+                            </div>
+                            <div class="corner border border-line bg-surface p-5">
+                                <span class="c1"></span><span class="c2"></span>
+                                <div class="text-3xl font-mono text-violet">24±</div>
+                                <div class="mt-2 text-sm text-mid">Paycoin 영상</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="cases" class="px-5 lg:px-10 py-24 bg-surface/25">
+                <div class="max-w-[1440px] mx-auto">
+                    <div class="reveal mb-10">
+                        <div class="flex items-baseline gap-4 mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-[.3em] text-accent"
+                                >// 02 / case files</span
+                            ><span class="h-px flex-1 bg-line2"></span>
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            Project Case Files
+                        </h2>
+                        <p class="font-serif italic text-mid text-xl mt-2">
+                            troubleshooting · access control · security awareness · contents operation
+                        </p>
+                    </div>
+                    <div
+                        class="reveal flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between mb-8 p-4 border border-line bg-ink/35"
+                    >
+                        <div class="flex items-center gap-3 border border-line2 bg-surface px-4 py-3 lg:w-96">
+                            <span class="text-dim font-mono text-xs">grep</span
+                            ><input
+                                id="projectSearch"
+                                class="w-full bg-transparent outline-none text-sm text-fg placeholder:text-dim"
+                                placeholder="검색: VPN, Linux, GitBook, YouTube..."
+                            />
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button
+                                class="tag-filter active px-3 py-2 border border-line2 text-xs font-mono"
+                                data-filter="all"
+                            >
+                                ALL</button
+                            ><button
+                                class="tag-filter px-3 py-2 border border-line2 text-xs font-mono text-mid"
+                                data-filter="security"
+                            >
+                                SECURITY</button
+                            ><button
+                                class="tag-filter px-3 py-2 border border-line2 text-xs font-mono text-mid"
+                                data-filter="network"
+                            >
+                                NETWORK</button
+                            ><button
+                                class="tag-filter px-3 py-2 border border-line2 text-xs font-mono text-mid"
+                                data-filter="linux"
+                            >
+                                LINUX</button
+                            ><button
+                                class="tag-filter px-3 py-2 border border-line2 text-xs font-mono text-mid"
+                                data-filter="ops"
+                            >
+                                IT OPS</button
+                            ><button
+                                class="tag-filter px-3 py-2 border border-line2 text-xs font-mono text-mid"
+                                data-filter="content"
+                            >
+                                CONTENT
+                            </button>
+                        </div>
+                    </div>
+                    <div id="projectGrid" class="grid grid-cols-12 gap-5"></div>
+                </div>
+            </section>
+            <section id="runbooks" class="px-5 lg:px-10 py-24">
+                <div class="max-w-[1440px] mx-auto">
+                    <div class="reveal mb-10">
+                        <div class="flex items-baseline gap-4 mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-[.3em] text-accent"
+                                >// 03 / runbooks</span
+                            ><span class="h-px flex-1 bg-line2"></span>
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            Runbook Library
+                        </h2>
+                        <div class="flex flex-col md:flex-row md:items-center gap-3 mt-2">
+                            <p class="font-serif italic text-mid text-xl">
+                                반복 문의와 운영 리스크를 줄이기 위한 표준 운영 문서
+                            </p>
+                            <span
+                                class="inline-flex w-fit items-center gap-2 border border-accent/25 bg-accent/10 px-3 py-1.5 text-[11px] font-mono uppercase tracking-widest text-accent"
+                            >
+                                click item → open PDF document
+                            </span>
+                        </div>
+                    </div>
+                    <div id="runbookGrid" class="grid grid-cols-12 gap-5"></div>
+                </div>
+            </section>
+            <section id="stack" class="px-5 lg:px-10 py-24 bg-surface/25">
+                <div class="max-w-[1440px] mx-auto grid grid-cols-12 gap-8">
+                    <div class="col-span-12 lg:col-span-5 reveal">
+                        <div class="font-mono text-[11px] uppercase tracking-[.3em] text-accent mb-4">
+                            // 04 / stack
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            Stack & Capability
+                        </h2>
+                        <p class="mt-5 text-mid leading-8">
+                            실제 운영 환경에서 다뤄본 기술을 중심으로 정리했습니다. 장애 대응, 접근통제, 서버 운영,
+                            보안솔루션, 계정관리, 문서화까지 프로젝트 산출물로 증명 가능한 역량만 담았습니다.
+                        </p>
+                    </div>
+                    <div class="col-span-12 lg:col-span-7 reveal space-y-4" id="skillList"></div>
+                </div>
+            </section>
+            <section id="career" class="px-5 lg:px-10 py-24">
+                <div class="max-w-[1440px] mx-auto">
+                    <div class="reveal mb-10">
+                        <div class="flex items-baseline gap-4 mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-[.3em] text-accent"
+                                >// 05 / career</span
+                            ><span class="h-px flex-1 bg-line2"></span>
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            Operations Timeline
+                        </h2>
+                        <p class="mt-4 max-w-4xl text-mid leading-8">
+                            페이프로토콜과 다날핀테크는 모두 다날 계열사로, 저는 동일 그룹 환경에서 정보보안 및 IT
+                            인프라 운영 역할을 연속적으로 수행했습니다. 조직 구조와 담당 범위 변화에 따라 정보보안,
+                            전산지원, IT 자산관리, Paycoin 콘텐츠 협업까지 역할이 확장되었습니다.
+                        </p>
+                    </div>
+                    <div class="relative pl-8 rail">
+                        <article class="reveal mb-14 relative">
+                            <div class="absolute -left-[34px] top-1 w-3 h-3 hex bg-accent"></div>
+                            <div class="font-mono text-[11px] uppercase tracking-widest text-accent mb-2">
+                                2025.07 ─ 2026.03
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-fg">
+                                ㈜ 다날핀테크 · 정보보호팀 / 인사총무팀 겸직
+                            </h3>
+                            <p class="text-mid mt-2">
+                                대리 · 팀원 · IT 자산/전산총무/정보보안 운영 · Paycoin 마케팅 콘텐츠 협업
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-5 mt-6">
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-xs text-accent mb-3">[ IT OPS / SECURITY ]</div>
+                                    <ul class="space-y-2 text-sm text-fg/75 leading-6">
+                                        <li>IT 자산 구매·운영·폐기·재고관리</li>
+                                        <li>Google Workspace / 라이선스 / 도메인 운영관리</li>
+                                        <li>사옥 이전에 따른 네트워크·보안 인프라 재구축 수행</li>
+                                        <li>ISMS 보호대책 요구사항 기반 접근통제·인증·권한관리 운영</li>
+                                        <li>사옥 이전에 따른 네트워크·보안 인프라 재구축 및 안정화 수행</li>
+                                        <li>IT 유휴·불용자산 처리 체계 개선 및 한국IT진흥원 협력/MOU 추진</li>
+                                        <li>Google Workspace, 라이선스, 도메인, 소프트웨어 자산 운영관리</li>
+                                        <li>
+                                            card.payprotocol.io / help.payprotocol.io GitBook 웹페이지 개발·구성 100%
+                                            담당
+                                        </li>
+                                        <li>Paycoin YouTube 채널 관리 및 쇼츠·16:9 영상 약 24편 제작·편집 참여</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-xs text-accent mb-3">[ PAYCOIN CONTENTS ]</div>
+                                    <ul class="space-y-2 text-sm text-fg/75 leading-6">
+                                        <li>card.payprotocol.io / help.payprotocol.io GitBook 웹페이지 개발·구성</li>
+                                        <li>Paycoin YouTube 채널 직접 관리</li>
+                                        <li>쇼츠 및 16:9 영상 약 24편 제작·편집 참여</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="reveal relative">
+                            <div class="absolute -left-[34px] top-1 w-3 h-3 hex bg-accent"></div>
+                            <div class="font-mono text-[11px] uppercase tracking-widest text-accent mb-2">
+                                2024.04 ─ 2025.07
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-fg">페이프로토콜㈜ · 정보보호팀</h3>
+                            <p class="text-mid mt-2">대리 · 팀원 · 정보보안 운영 / 입사 후 1년 내 대리 승진</p>
+                            <div class="grid md:grid-cols-2 gap-5 mt-6">
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-xs text-accent mb-3">[ NETWORK SECURITY ]</div>
+                                    <ul class="space-y-2 text-sm text-fg/75 leading-6">
+                                        <li>FortiGate UTM 방화벽 정책 운영 및 네트워크 접근통제</li>
+                                        <li>SSL VPN 사용자 계정 및 그룹 기반 권한 정책 운영</li>
+                                        <li>NAT, VIP, 라우팅, 정책 우선순위 기반 트래픽 분석</li>
+                                        <li>FortiGate UTM 기반 방화벽 정책, NAT, VIP, SSL VPN 접근통제 운영</li>
+                                        <li>SSL VPN 사용자 계정 및 그룹 기반 권한 정책 운영</li>
+                                        <li>EPP/ESP/DRM/백신 등 엔드포인트 보안솔루션 운영</li>
+                                        <li>Linux 서버 장애 대응 및 보안 설정 가이드 문서화</li>
+                                        <li>VPN, 방화벽, 보안솔루션 운영 매뉴얼 제작</li>
+                                    </ul>
+                                </div>
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-xs text-accent mb-3">[ ENDPOINT / DOCS ]</div>
+                                    <ul class="space-y-2 text-sm text-fg/75 leading-6">
+                                        <li>EPP/ESP/DRM/백신 등 보안솔루션 운영</li>
+                                        <li>계정 생성·회수·권한변경 라이프사이클 관리</li>
+                                        <li>VPN, 방화벽, 보안 솔루션 운영 매뉴얼 제작</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section id="ai" class="px-5 lg:px-10 py-24 bg-surface/25 relative overflow-hidden">
+                <div class="absolute -right-32 -top-32 w-[32rem] h-[32rem] rounded-full bg-accent/5 blur-3xl"></div>
+                <div class="max-w-[1440px] mx-auto relative">
+                    <div class="reveal mb-10">
+                        <div class="flex items-baseline gap-4 mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-[.3em] text-accent"
+                                >// 06 / ai lab</span
+                            ><span class="h-px flex-1 bg-line2"></span>
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            AI Automation Lab
+                        </h2>
+                        <p class="font-serif italic text-mid text-xl mt-2">
+                            AI를 단순 검색 도구가 아니라 웹앱 프로토타이핑·문서화·데이터 분석·업무 자동화 도구로
+                            활용합니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-12 gap-5">
+                        <article class="reveal col-span-12 lg:col-span-6 corner border border-line bg-surface p-7">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="flex items-start justify-between gap-5 mb-5">
+                                <div>
+                                    <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                        side_project // streamlit web app
+                                    </div>
+                                    <h3 class="text-2xl md:text-3xl font-bold text-fg">AI Stock Analyzer</h3>
+                                    <p class="text-mid mt-2">Streamlit 기반 AI 주식종목 분석 웹앱</p>
+                                </div>
+                                <span
+                                    class="px-3 py-1.5 border border-accent/30 bg-accent/10 text-accent text-xs font-mono whitespace-nowrap"
+                                    >DEPLOYED</span
+                                >
+                            </div>
+                            <p class="text-mid leading-8 mb-5">
+                                사용자가 관심 종목을 입력하면 기술적 분석, 투자 참고 지표, 종목별 판단 보조 정보를
+                                확인할 수 있도록 제작한 웹앱입니다. AI와 코드 생성 도구를 활용해 아이디어를 실제 배포
+                                가능한 서비스 형태로 빠르게 프로토타이핑한 사이드 프로젝트입니다.
+                            </p>
+                            <div class="grid md:grid-cols-3 gap-3 mb-5">
+                                <div class="border border-line2 bg-ink/35 p-4">
+                                    <div class="font-mono text-accent text-lg">Streamlit</div>
+                                    <div class="text-xs text-mid mt-1">웹앱 배포</div>
+                                </div>
+                                <div class="border border-line2 bg-ink/35 p-4">
+                                    <div class="font-mono text-accent2 text-lg">Python</div>
+                                    <div class="text-xs text-mid mt-1">분석 로직</div>
+                                </div>
+                                <div class="border border-line2 bg-ink/35 p-4">
+                                    <div class="font-mono text-accent4 text-lg">AI</div>
+                                    <div class="text-xs text-mid mt-1">판단 보조</div>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <a
+                                    href="https://stock-analyzer-hong.streamlit.app/"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="px-4 py-2 border border-accent/30 bg-accent/10 text-accent text-xs font-mono hover:bg-accent hover:text-ink transition"
+                                    >OPEN DEMO</a
+                                >
+                                <span class="px-4 py-2 border border-line2 text-mid text-xs font-mono"
+                                    >Demo access: available upon request</span
+                                >
+                            </div>
+                        </article>
+
+                        <article class="reveal col-span-12 lg:col-span-6 corner border border-line bg-surface p-7">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                this_portfolio.build_log
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-fg mb-4">Security Portfolio Website</h3>
+                            <p class="text-mid leading-8 mb-5">
+                                Claude HTML 초안을 기반으로 ChatGPT와 함께 실제 PDF 산출물, 사람인 이력서, 프로젝트
+                                보고서를 검토해 보안 운영자 포트폴리오 웹사이트를 구조화했습니다. Case File, Runbook
+                                Library, Paycoin Contents, Certifications를 단일 웹사이트 안에 정리했습니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">HTML</span>
+                                <span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">Tailwind</span>
+                                <span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">Claude</span>
+                                <span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">ChatGPT</span>
+                                <span class="px-3 py-2 border border-line2 text-mid text-xs font-mono"
+                                    >PDF Indexing</span
+                                >
+                            </div>
+                        </article>
+
+                        <article class="reveal col-span-12 lg:col-span-4 corner border border-line bg-surface p-6">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                work_automation
+                            </div>
+                            <h3 class="text-xl font-bold text-fg mb-3">Excel·근태 데이터 자동화</h3>
+                            <p class="text-sm text-mid leading-7">
+                                근태 Raw 데이터 불러오기, DB 누적, 출결부 자동 업데이트, 개인별/부서별 분석 등 반복
+                                업무를 줄이는 구조를 설계하고 매뉴얼화했습니다.
+                            </p>
+                        </article>
+                        <article class="reveal col-span-12 lg:col-span-4 corner border border-line bg-surface p-6">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                document_automation
+                            </div>
+                            <h3 class="text-xl font-bold text-fg mb-3">보안·운영 문서 자동화</h3>
+                            <p class="text-sm text-mid leading-7">
+                                VPN, FortiGate, DRM, SESP, Gmail 백업 등 반복 문의가 발생하는 업무를 표준 운영 문서와
+                                링크형 Runbook Library로 정리했습니다.
+                            </p>
+                        </article>
+                        <article class="reveal col-span-12 lg:col-span-4 corner border border-line bg-surface p-6">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                automation.stack
+                            </div>
+                            <h3 class="text-xl font-bold text-fg mb-3">활용 스택</h3>
+                            <ul class="space-y-2 text-sm text-fg/75">
+                                <li>• ChatGPT / Claude</li>
+                                <li>• Python / Streamlit</li>
+                                <li>• HTML / Tailwind</li>
+                                <li>• Excel Macro / 문서화</li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section id="content" class="px-5 lg:px-10 py-24">
+                <div class="max-w-[1440px] mx-auto">
+                    <div class="reveal mb-10">
+                        <div class="flex items-baseline gap-4 mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-[.3em] text-accent"
+                                >// 07 / paycoin contents</span
+                            ><span class="h-px flex-1 bg-line2"></span>
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            Paycoin Marketing & GitBook Contents
+                        </h2>
+                        <p class="font-serif italic text-mid text-xl mt-2">
+                            서비스 이해 기반의 콘텐츠 제작과 사용자 가이드 구축 경험
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-12 gap-5">
+                        <article class="reveal col-span-12 lg:col-span-6 corner border border-line bg-surface p-7">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                gitbook.webpage // 100% ownership
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-fg mb-4">
+                                PayProtocol Card / Help Center GitBook 구축
+                            </h3>
+                            <p class="text-mid leading-8 mb-5">
+                                PayProtocol Card 및 Help Center 성격의 GitBook 웹페이지 개발·구성·콘텐츠 정리를 100%
+                                담당했습니다. 카드 서비스 소개, 사용법, FAQ, 사용자 안내 문서를 서비스 흐름에 맞춰
+                                구조화했습니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <a
+                                    href="https://card.payprotocol.io/"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="px-3 py-2 border border-accent/30 bg-accent/10 text-accent text-xs font-mono hover:bg-accent hover:text-ink transition"
+                                    >card.payprotocol.io</a
+                                ><a
+                                    href="https://help.payprotocol.io/"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="px-3 py-2 border border-accent4/30 bg-accent4/10 text-accent4 text-xs font-mono hover:bg-accent4 hover:text-ink transition"
+                                    >help.payprotocol.io</a
+                                ><span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">GitBook</span
+                                ><span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">Figma</span
+                                ><span class="px-3 py-2 border border-line2 text-mid text-xs font-mono">Notion</span>
+                            </div>
+                        </article>
+                        <article class="reveal col-span-12 lg:col-span-6 corner border border-line bg-surface p-7">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-3">
+                                youtube.channel // shorts & 16:9 videos
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-fg mb-4">
+                                Paycoin YouTube 채널 운영 및 영상 제작
+                            </h3>
+                            <p class="text-mid leading-8 mb-5">
+                                Paycoin 유튜브 채널을 직접 관리하며 쇼츠 영상과 16:9 형식의 안내·홍보 영상을 포함해 약
+                                24편의 영상 제작 및 편집에 참여했습니다. 서비스 기능을 일반 사용자가 이해하기 쉬운
+                                콘텐츠로 전환했습니다.
+                            </p>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="border border-line2 bg-ink/35 p-4">
+                                    <div class="font-mono text-2xl text-accent">24편</div>
+                                    <div class="text-xs text-mid mt-1">영상 제작·편집 진행</div>
+                                </div>
+                                <div class="border border-line2 bg-ink/35 p-4">
+                                    <div class="font-mono text-2xl text-accent2">Shorts</div>
+                                    <div class="text-xs text-mid mt-1">세로형 콘텐츠</div>
+                                </div>
+                                <div class="border border-line2 bg-ink/35 p-4">
+                                    <div class="font-mono text-2xl text-accent4">16:9</div>
+                                    <div class="text-xs text-mid mt-1">가이드 영상</div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section id="certs" class="px-5 lg:px-10 py-24 bg-surface/25">
+                <div class="max-w-[1440px] mx-auto">
+                    <div class="reveal mb-10">
+                        <div class="flex items-baseline gap-4 mb-3">
+                            <span class="font-mono text-[11px] uppercase tracking-[.3em] text-accent"
+                                >// 08 / certifications</span
+                            ><span class="h-px flex-1 bg-line2"></span>
+                        </div>
+                        <h2 class="font-sans font-extrabold text-4xl md:text-6xl tracking-tight text-fg">
+                            Certifications & Education
+                        </h2>
+                        <p class="font-serif italic text-mid text-xl mt-2">
+                            정보통신·네트워크·Linux·정보처리 기반 역량
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-12 gap-6">
+                        <div class="reveal col-span-12 lg:col-span-7 corner border border-line bg-surface p-7">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-5">
+                                certification.list
+                            </div>
+                            <div class="space-y-1">
+                                <div
+                                    class="row-hover grid grid-cols-12 gap-3 py-3 px-2 border-b border-line2 items-baseline"
+                                >
+                                    <div class="col-span-3 font-mono text-[11px] text-accent">2026.04</div>
+                                    <div class="col-span-5 font-bold text-fg">리눅스마스터 2급</div>
+                                    <div class="col-span-4 font-mono text-[10px] text-dim text-right">
+                                        한국정보통신인력개발센터
+                                    </div>
+                                </div>
+                                <div
+                                    class="row-hover grid grid-cols-12 gap-3 py-3 px-2 border-b border-line2 items-baseline"
+                                >
+                                    <div class="col-span-3 font-mono text-[11px] text-accent">2025.12</div>
+                                    <div class="col-span-5 font-bold text-fg">정보처리산업기사</div>
+                                    <div class="col-span-4 font-mono text-[10px] text-dim text-right">
+                                        한국산업인력공단
+                                    </div>
+                                </div>
+                                <div
+                                    class="row-hover grid grid-cols-12 gap-3 py-3 px-2 border-b border-line2 items-baseline"
+                                >
+                                    <div class="col-span-3 font-mono text-[11px] text-accent">2024.04</div>
+                                    <div class="col-span-5 font-bold text-fg">네트워크관리사 2급</div>
+                                    <div class="col-span-4 font-mono text-[10px] text-dim text-right">ICQA</div>
+                                </div>
+                                <div
+                                    class="row-hover grid grid-cols-12 gap-3 py-3 px-2 border-b border-line2 items-baseline"
+                                >
+                                    <div class="col-span-3 font-mono text-[11px] text-accent">2020.08</div>
+                                    <div class="col-span-5 font-bold text-fg">정보통신산업기사</div>
+                                    <div class="col-span-4 font-mono text-[10px] text-dim text-right">
+                                        한국방송통신전파진흥원
+                                    </div>
+                                </div>
+                                <div
+                                    class="row-hover grid grid-cols-12 gap-3 py-3 px-2 border-b border-line2 items-baseline"
+                                >
+                                    <div class="col-span-3 font-mono text-[11px] text-mid">2020.05</div>
+                                    <div class="col-span-5 font-bold text-fg/80">2종 보통 운전면허</div>
+                                    <div class="col-span-4 font-mono text-[10px] text-dim text-right">경찰청</div>
+                                </div>
+                                <div class="row-hover grid grid-cols-12 gap-3 py-3 px-2 items-baseline">
+                                    <div class="col-span-3 font-mono text-[11px] text-mid">2019.05</div>
+                                    <div class="col-span-5 font-bold text-fg/80">SCAE Barista Foundation</div>
+                                    <div class="col-span-4 font-mono text-[10px] text-dim text-right">SCAE</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reveal col-span-12 lg:col-span-5 corner border border-line bg-surface p-7">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-accent mb-5">
+                                education.path
+                            </div>
+                            <div class="space-y-6">
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-[11px] text-accent mb-1">2024.01 ─ 2025.01</div>
+                                    <div class="font-bold text-fg text-lg">국가평생교육진흥원대학교</div>
+                                    <div class="text-mid text-sm mt-1">
+                                        컴퓨터공학 · 학점은행제 4년제 학위 · GPA 3.35 / 4.5
+                                    </div>
+                                </div>
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-[11px] text-accent mb-1">2016.03 ─ 2021.03</div>
+                                    <div class="font-bold text-fg text-lg">ICT폴리텍대학</div>
+                                    <div class="text-mid text-sm mt-1">정보통신학과 · 전문학사 · GPA 2.6 / 4.5</div>
+                                </div>
+                                <div class="border-l border-line2 pl-5">
+                                    <div class="font-mono text-[11px] text-mid mb-1">2023.11 ─ 2024.05</div>
+                                    <div class="font-bold text-fg/85 text-lg">AWS 풀스택 개발자 양성과정</div>
+                                    <div class="text-mid text-sm mt-1">두드림컴퓨터아카데미 교육 이수</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="contact" class="px-5 lg:px-10 py-24 border-t border-line">
+                <div class="max-w-[900px] mx-auto text-center reveal">
+                    <div class="font-mono text-[11px] uppercase tracking-[.3em] text-accent mb-6">// 09 / contact</div>
+                    <h2 class="font-sans font-extrabold text-5xl md:text-7xl tracking-tight leading-[.95] text-fg">
+                        Let's build<br /><span class="font-serif italic font-normal text-accent glow"
+                            >resilient operations.</span
+                        >
+                    </h2>
+                    <p class="mt-8 text-lg text-mid leading-8">
+                        정보보안 및 IT인프라 운영이 필요한 조직에서 안정성과 실행력을 보여드리겠습니다.
+                    </p>
+                    <div class="mt-10 grid md:grid-cols-2 gap-4 text-left">
+                        <a
+                            href="mailto:h970920@naver.com"
+                            class="corner border border-line bg-surface p-6 hover:border-accent transition"
+                            ><span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-dim mb-2">email</div>
+                            <div class="text-lg text-fg">h970920@naver.com</div></a
+                        >
+                        <div class="corner border border-line bg-surface p-6">
+                            <span class="c1"></span><span class="c2"></span>
+                            <div class="font-mono text-[10px] uppercase tracking-widest text-dim mb-2">phone</div>
+                            <div class="text-lg text-fg">010-****-0920</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="px-5 lg:px-10 py-8 border-t border-line">
+            <div
+                class="max-w-[1440px] mx-auto flex flex-col md:flex-row gap-3 md:items-center md:justify-between font-mono text-[10px] uppercase tracking-widest text-dim"
+            >
+                <span>© 2026 HONG SEONGWON · SECURITY OPERATIONS PORTFOLIO</span
+                ><span class="text-accent">crafted with Claude · ChatGPT · HTML · Tailwind</span>
+            </div>
+        </footer>
+        <script>
+            const bootLines = [
+                '[ OK ] Initializing security operations portfolio...',
+                '[ OK ] Loading FortiGate / SSL VPN case files...',
+                '[ OK ] Mounting Linux recovery notes...',
+                '[ OK ] Indexing GitBook and Paycoin contents...',
+                '[ OK ] Verifying resume profile: HONG SEONGWON',
+                '',
+                '  >> Welcome, HONG SEONGWON',
+                '  >> Portfolio Console v2026 ready',
+                '',
+            ];
+            const bootEl = document.getElementById('bootText');
+            let bi = 0,
+                bj = 0,
+                buf = '';
+            function bootTick() {
+                if (bi >= bootLines.length) {
+                    setTimeout(() => document.getElementById('boot').classList.add('done'), 450);
+                    return;
+                }
+                const line = bootLines[bi];
+                if (bj < line.length) {
+                    buf += line[bj++];
+                    bootEl.textContent = buf + '▌';
+                    setTimeout(bootTick, line.startsWith('[') ? 8 : 18);
+                } else {
+                    buf += '\n';
+                    bootEl.textContent = buf;
+                    bi++;
+                    bj = 0;
+                    setTimeout(bootTick, 75);
+                }
+            }
+            bootTick();
+            function pad(n) {
+                return String(n).padStart(2, '0');
+            }
+            function nowKst() {
+                const d = new Date();
+                return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} KST`;
+            }
+            setInterval(() => {
+                document.getElementById('clock').textContent = nowKst();
+            }, 1000);
+            document.getElementById('clock').textContent = nowKst();
+            const logs = [
+                'fw01: policy check complete — SSL VPN group access matrix indexed',
+                'linux: xfs_repair note mounted — PowerEdge R450 recovery case verified',
+                'gitbook: card.payprotocol.io / help.payprotocol.io ownership verified',
+                'youtube: Paycoin channel contents indexed — shorts & 16:9 videos',
+                'runbook: FortiGate VPN account guide loaded — MFA required',
+                'drm: document security workflow indexed — export approval process found',
+                'lb: safe.payprotocol.io VIP + SSL offloading case available',
+                'isms: endpoint and workplace security guide mapped',
+            ];
+            const liveLogs = document.getElementById('liveLogs');
+            let li = 0;
+            function pushLog() {
+                const row = document.createElement('div');
+                row.className = 'log-row text-fg';
+                row.innerHTML = `<span class="text-dim">[${nowKst().slice(11, 19)}]</span> <span class="${li % 3 === 0 ? 'text-accent' : 'text-mid'}">${logs[li % logs.length]}</span>`;
+                liveLogs.appendChild(row);
+                while (liveLogs.children.length > 6) liveLogs.removeChild(liveLogs.firstChild);
+                li++;
+            }
+            for (let i = 0; i < 4; i++) pushLog();
+            setInterval(pushLog, 1700);
+            const projects = [
+                {
+                    id: 'CASE-001',
+                    title: 'FortiGate 기반 L4 분리 및 무중단 배포',
+                    cat: ['network', 'security'],
+                    period: '2025.05.28',
+                    severity: 'HIGH',
+                    tools: ['FortiGate', 'Virtual Server', 'SSL Offloading', 'Rolling Deploy'],
+                    summary:
+                        'safe.payprotocol.io 서비스 중단 없이 백엔드 서버 신규 버전을 배포하기 위해 특정 Real Server를 L4 로드밸런서 구성에서 분리하고, 배포·검증 후 재등록하는 롤링 배포 구조를 수행했습니다.',
+                    impact: '서비스 중단 없이 백엔드 서버 교체 및 기능 개선, 인증서·방화벽 정책·VIP 구조 유지',
+                },
+                {
+                    id: 'CASE-002',
+                    title: 'PCI BO 사이트 로드밸런싱 및 접근통제 작업',
+                    cat: ['network', 'security'],
+                    period: '2024.10.01~10.07',
+                    severity: 'HIGH',
+                    tools: ['FortiGate', 'Real Server', 'Health Check', 'VIP', 'SSL Certificate'],
+                    summary:
+                        'SSL 인증서 Import, Real Server 구성, HTTP Health Check, HTTPS Virtual Server 생성, 방화벽 정책 생성 및 로그 확인을 통해 PCI BO 사이트 로드밸런싱을 구현했습니다.',
+                    impact: '로드밸런싱 구현 및 서버 로그 확인, 허가받은 사용자만 접근 가능한 보안 구조 검토',
+                },
+                {
+                    id: 'CASE-003',
+                    title: 'SSL-VPN 서버 접속 장애 분석 및 정책 수정',
+                    cat: ['network', 'security'],
+                    period: '2026',
+                    severity: 'MEDIUM',
+                    tools: ['FortiGate', 'SSL VPN', 'SSH', 'Routing'],
+                    summary:
+                        'SSL-VPN 연결 후 10.10.30.30 서버 SSH 접속이 timeout 되는 장애를 서버 게이트웨이, 방화벽, FortiGate 정책 순서로 분석했습니다. Outgoing Interface 설정 오류를 확인해 실제 서버 대역 기준 정책으로 수정했습니다.',
+                    impact: 'VPN 사용자 내부 서버 접근 장애 원인 식별 및 FortiGate 정책 기준 정비',
+                },
+                {
+                    id: 'CASE-004',
+                    title: 'PowerEdge R450 / Rocky Linux EPP 서버 긴급 복구',
+                    cat: ['linux', 'ops'],
+                    period: '2025.11.03',
+                    severity: 'CRITICAL',
+                    tools: ['Rocky Linux 8.6', 'XFS', 'xfs_repair', 'Emergency Mode'],
+                    summary:
+                        'XFS 파일시스템 손상으로 Emergency Mode에 진입한 내부망 관리 서버에 콘솔 접속 후 /home 볼륨 상태를 확인하고 xfs_repair를 수행했습니다.',
+                    impact: 'Emergency Mode 해제, /home 마운트 복구, 네트워크 인터페이스 확인까지 복구 절차 수행',
+                },
+                {
+                    id: 'CASE-005',
+                    title: 'Linux OS 보안설정 및 서버 인수인계 가이드',
+                    cat: ['linux', 'security'],
+                    period: '2024.09.21',
+                    severity: 'MEDIUM',
+                    tools: ['Linux', 'SSH', 'SELinux', 'sudoers', 'bashrc', 'crond'],
+                    summary:
+                        '로케일·타임존, KVM 디스크 마운트, yum 설정, 불필요 계정 삭제, 서비스 계정 권한, SSH 취약 알고리즘 비활성화, PermitRootLogin no, 세션 타임아웃 등 OS 보안 설정 기준을 문서화했습니다.',
+                    impact: '서버 운영 일관성 확보 및 신규 담당자 인수인계 가능 수준의 기준 정리',
+                },
+                {
+                    id: 'CASE-006',
+                    title: 'FortiGate UTM 정책 생성 및 운영 표준화',
+                    cat: ['network', 'security'],
+                    period: '2025',
+                    severity: 'MEDIUM',
+                    tools: ['FortiGate', 'IPv4 Policy', 'TCP Service', 'Policy Order'],
+                    summary:
+                        '운영서버 접근을 위한 출발지·도착지·서비스 포트·스케줄·정책 순서 기준을 정리해 방화벽 정책 생성 절차를 표준화했습니다.',
+                    impact: '정책 생성 시 누락·순서 오류를 줄이는 운영 가이드 확보',
+                },
+                {
+                    id: 'CASE-007',
+                    title: '임직원 보안 가이드북 및 SESP 보안 교육자료 제작',
+                    cat: ['security'],
+                    period: '2024.10',
+                    severity: 'MEDIUM',
+                    tools: ['Canva', 'ISMS', 'SESP', 'DRM', 'DLP'],
+                    summary:
+                        'PC 보안, 업무환경 보안, DRM, 매체 승인, 파일 반출, 출력 워터마크, 외부 네트워크 접근 안내 등 임직원 대상 보안 인식 제고 자료를 제작했습니다.',
+                    impact: '신규 입사자 및 임직원의 보안 솔루션 이해도와 예외처리 신청 프로세스 인지 강화',
+                },
+                {
+                    id: 'CASE-008',
+                    title: '그룹웨어 회의실 예약 시스템 개선 기획',
+                    cat: ['ops'],
+                    period: '2025',
+                    severity: 'LOW',
+                    tools: ['Groupware', 'Process Design', 'Resource Management'],
+                    summary:
+                        '후너스빌딩 실제 회의실 구성에 맞춰 회의실 정보를 정비하고, 다날핀테크·페이프로토콜·제프 3개 법인 간 통합 예약 DB 연동을 기획했습니다.',
+                    impact: '예약 충돌 방지 및 공유 자원 운영 효율 개선 방향 도출',
+                },
+                {
+                    id: 'CASE-009',
+                    title: '근태관리대장 Excel 자동화 운영 매뉴얼',
+                    cat: ['ops'],
+                    period: '2025',
+                    severity: 'LOW',
+                    tools: ['Excel', 'VBA', 'S1ESP', 'Attendance Data'],
+                    summary:
+                        '근태 Raw 데이터 자동 불러오기, DB 시트 누적, 출결부 자동 업데이트, 개인별/전체 근태 분석 기능을 갖춘 근태관리대장 사용법을 문서화했습니다.',
+                    impact: '월별 근태 데이터 처리와 분석 업무의 반복 작업 감소',
+                },
+                {
+                    id: 'CASE-010',
+                    title: 'PayProtocol GitBook Help Center 웹페이지 구축',
+                    cat: ['ops', 'content'],
+                    period: '2025.02~05',
+                    severity: 'LOW',
+                    tools: ['GitBook', 'Figma', 'Canva', 'Notion'],
+                    summary:
+                        'card.payprotocol.io 및 help.payprotocol.io GitBook 웹페이지 개발과 콘텐츠 구성을 100% 담당했습니다. 카드 서비스 소개, 사용법, FAQ, 사용자 안내 문서를 서비스 흐름에 맞춰 정리했습니다.',
+                    impact: '사용자 가이드 접근성 향상 및 서비스 안내 체계 구축',
+                },
+                {
+                    id: 'CASE-011',
+                    title: 'Paycoin YouTube 채널 운영 및 영상 콘텐츠 제작',
+                    cat: ['content'],
+                    period: '2025',
+                    severity: 'LOW',
+                    tools: ['YouTube', 'Canva', 'Video Editing', 'Shorts'],
+                    summary:
+                        'Paycoin 유튜브 채널을 직접 관리하며 쇼츠 영상과 16:9 형식의 안내·홍보 영상을 포함해 약 24편의 영상 제작 및 편집에 참여했습니다.',
+                    impact: '복잡한 서비스 기능을 일반 사용자가 이해하기 쉬운 영상 콘텐츠로 전환',
+                },
+            ];
+            const runbooks = {
+                '보안·네트워크': [
+                    'Fortigate VPN계정 생성 가이드',
+                    'Fortigate UTM 정책 생성 매뉴얼',
+                    'FortiClient VPN BO 연결 매뉴얼',
+                    'FortiClient VPN 재택 원격 연결 매뉴얼',
+                    'OpenConnect VPN 연결 가이드',
+                    'OpenConnect VPN RDP 연결 가이드',
+                    'RDP 원격 접속 세팅 - macOS',
+                    'PCI BO 접속 매뉴얼',
+                    'Windows Hosts 파일 수정 가이드',
+                ],
+                '보안솔루션·교육': [
+                    '임직원 보안 가이드북',
+                    'PC보안 가이드북 / SESP',
+                    'Payprotocol DRM 매뉴얼',
+                    '보안솔루션 설치 매뉴얼',
+                    '신규 입사자 보안 솔루션 OJT 자료',
+                ],
+                '서버·인프라': [
+                    '리눅스 OS 보안설정 가이드',
+                    '서버 긴급 복구 보고서',
+                    '10.10.30.30 서버 점검 보고서',
+                    'FortiGate L4 분리 및 무중단 배포 보고',
+                    '서버 로드밸런싱 작업 보고',
+                ],
+                'IT 운영·사용자지원': [
+                    '신규 PC 세팅 매뉴얼',
+                    '복합기 사용 매뉴얼 (Apeos C3567)',
+                    'Google Gmail 데이터 백업 안내',
+                    'Gmail 백업 파일(mbox) 복원 안내',
+                    '근태관리대장 사용 매뉴얼 v1.0',
+                    '그룹웨어 회의실 예약 시스템 개선 기획서',
+                ],
+                'Paycoin 콘텐츠·GitBook': [
+                    'PayProtocol Card GitBook 웹페이지 구축',
+                    'PayProtocol Help Center GitBook 웹페이지 구축',
+                    'Paycoin YouTube 채널 운영',
+                    'Paycoin Shorts 영상 제작',
+                    'Paycoin 16:9 가이드 영상 제작',
+                    '서비스 FAQ 및 사용자 가이드 콘텐츠 구성',
+                ],
+            };
+            const skills = [
+                [
+                    'FortiGate / Firewall',
+                    '방화벽 정책, VIP, NAT, SSL VPN, 로드밸런싱, 정책 우선순위 기반 트래픽 분석',
+                    90,
+                ],
+                ['Linux Server', 'Rocky Linux, XFS 복구, SSH 보안설정, 계정·권한·로그 기준 설정', 76],
+                ['Endpoint Security', 'EPP/ESP/DRM/S1ESP, 문서보안, 매체승인, 파일반출, 출력 워터마크', 82],
+                ['Google Workspace / IAM', '계정 생성·회수·권한변경, 2단계 인증, 메일 백업·복원, 라이선스 정비', 78],
+                ['IT Operations', '신규 PC 세팅, OA 장애 대응, 그룹웨어, 회의실/근태/업무시스템 개선', 84],
+                [
+                    'GitBook / Contents',
+                    'PayProtocol Card·Help Center GitBook 구축, Paycoin YouTube 채널 운영, 쇼츠·16:9 영상 제작',
+                    86,
+                ],
+                [
+                    'Documentation / AI',
+                    'Notion, GitBook, Canva, ChatGPT, Claude 기반 운영 매뉴얼·웹 포트폴리오 제작',
+                    92,
+                ],
+            ];
+
+            const linkMap = {
+                'Fortigate VPN계정 생성 가이드': './pdf/Fortigate_VPN계정_생성_가이드.pdf',
+                'Fortigate UTM 정책 생성 매뉴얼': './pdf/Fortigate_UTM_정책_생성_메뉴얼_.pdf',
+                'FortiClient VPN BO 연결 매뉴얼': './pdf/FortiClient_(VPN)_BO연결_메뉴얼_.pdf',
+                'FortiClient VPN 재택 원격 연결 매뉴얼': './pdf/FortiClient_(VPN)_재택_원격_연결_메뉴얼_.pdf',
+                'OpenConnect VPN 연결 가이드': './pdf/OpenConnect(VPN)_연결_가이드.pdf',
+                'OpenConnect VPN RDP 연결 가이드': './pdf/OpenConnect(VPN)_RDP연결_가이드_.pdf',
+                'RDP 원격 접속 세팅 - macOS': './pdf/RDP(원격_접속_세팅)_-_MAC_OS_.pdf',
+                'PCI BO 접속 매뉴얼': './pdf/_PCI_BO_접속_메뉴얼_.pdf',
+                'Windows Hosts 파일 수정 가이드': './pdf/Windows_Hosts_파일_수정_가이드_(그룹웨어_접속_방법_안내)_.pdf',
+                '임직원 보안 가이드북': './pdf/임직원_보안_가이드북_인사총무팀_홍성원.pdf',
+                'PC보안 가이드북 / SESP': './pdf/PC보안_가이드북_ESP_인사총무팀_홍성원.pdf',
+                'Payprotocol DRM 매뉴얼': './pdf/Payprotocol_DRM_메뉴얼_.pdf',
+                '보안솔루션 설치 매뉴얼': './pdf/보안솔루션_설치_메뉴얼.pdf',
+                '신규 입사자 보안 솔루션 OJT 자료': './pdf/보안솔루션_설치_메뉴얼.pdf',
+                '리눅스 OS 보안설정 가이드': './pdf/리눅스OS_보안설정_가이드(홍성원).pdf',
+                '서버 긴급 복구 보고서': './pdf/서버_긴급_복구_보고서_(PowerEdge_R450__Rocky_Linux_8.6epp_서버).pdf',
+                '10.10.30.30 서버 점검 보고서': './pdf/10.10.30.30_서버_점검_보고서.pdf',
+                'FortiGate L4 분리 및 무중단 배포 보고': './pdf/FortiGate_기반L4분리및무중단배포작업.pdf',
+                '서버 로드밸런싱 작업 보고': './pdf/서버로드밸런싱_작업_인사총무팀_홍성원.pdf',
+                '신규 PC 세팅 매뉴얼': './pdf/신규_PC_세팅_매뉴얼_.pdf',
+                '복합기 사용 매뉴얼 (Apeos C3567)': './pdf/복합기_사용_메뉴얼_(Apeos_C3567)_.pdf',
+                'Google Gmail 데이터 백업 안내': './pdf/Google_Gmail(지메일)_데이터_백업_안내.pdf',
+                'Gmail 백업 파일(mbox) 복원 안내': './pdf/Gmail_백업_파일(mbox)_복원_안내.pdf',
+                '근태관리대장 사용 매뉴얼 v1.0': './pdf/근태관리대장_사용_매뉴얼_v1.0.pdf',
+                '그룹웨어 회의실 예약 시스템 개선 기획서': './pdf/그룹웨어_회의실_예약_시스템_개선_기획서_.pdf',
+                'PayProtocol Card GitBook 웹페이지 구축': 'https://card.payprotocol.io/',
+                'PayProtocol Help Center GitBook 웹페이지 구축': 'https://help.payprotocol.io/',
+            };
+            function renderRunbookItem(it, i) {
+                const href = linkMap[it];
+                const num = `<span class="font-mono text-[10px] text-dim">${String(i + 1).padStart(2, '0')}</span>`;
+                if (href) {
+                    return `<li class="row-hover py-2 px-2 text-sm"><a class="flex gap-3 items-start text-fg/75 hover:text-accent transition" href="${href}" target="_blank" rel="noopener">${num}<span>${it}</span><span class="ml-auto font-mono text-[10px] text-accent/70">OPEN</span></a></li>`;
+                }
+                return `<li class="row-hover flex gap-3 py-2 px-2 text-sm opacity-70">${num}<span class="text-fg/75">${it}</span><span class="ml-auto font-mono text-[10px] text-dim">NO PDF</span></li>`;
+            }
+            function sevClass(s) {
+                return s === 'CRITICAL'
+                    ? 'text-accent3'
+                    : s === 'HIGH'
+                      ? 'text-accent2'
+                      : s === 'MEDIUM'
+                        ? 'text-accent4'
+                        : 'text-mid';
+            }
+            function renderProjects() {
+                const grid = document.getElementById('projectGrid');
+                grid.innerHTML = projects
+                    .map(
+                        (p, i) =>
+                            `<article class="project-card reveal corner border border-line bg-surface p-6 hover:bg-surface2 transition-colors ${i < 2 ? 'col-span-12 lg:col-span-6' : 'col-span-12 md:col-span-6 lg:col-span-4'}" data-cat="${p.cat.join(' ')}" data-search="${(p.title + p.summary + p.tools.join(' ') + p.impact).toLowerCase()}"><span class="c1"></span><span class="c2"></span><div class="flex items-center justify-between mb-4"><span class="font-mono text-[10px] text-dim uppercase tracking-widest">// ${p.id}</span><span class="font-mono text-[10px] ${sevClass(p.severity)}">◆ ${p.severity}</span></div><div class="font-mono text-[11px] text-accent mb-2">${p.period}</div><h3 class="font-bold text-fg leading-tight mb-4 ${i < 2 ? 'text-2xl md:text-3xl' : 'text-xl'}">${p.title}</h3><p class="text-mid text-sm leading-7 mb-5">${p.summary}</p><div class="flex flex-wrap gap-1.5 mb-5">${p.tools.map((t) => `<span class="font-mono text-[10px] px-2 py-1 border border-line2 text-mid">${t}</span>`).join('')}</div><div class="border-l-2 border-accent bg-accent/5 p-3 text-sm text-fg/75 leading-6"><span class="font-mono text-accent">→</span> ${p.impact}</div></article>`
+                    )
+                    .join('');
+                setTimeout(initReveal, 0);
+            }
+            function renderRunbooks() {
+                const grid = document.getElementById('runbookGrid');
+                grid.innerHTML = Object.entries(runbooks)
+                    .map(
+                        ([cat, items], idx) =>
+                            `<details ${idx === 0 ? 'open' : ''} class="reveal col-span-12 md:col-span-6 lg:col-span-3 corner border border-line bg-surface p-6"><span class="c1"></span><span class="c2"></span><summary class="flex items-start justify-between gap-4"><div><div class="font-mono text-[10px] uppercase tracking-widest text-accent">runbook category</div><h3 class="mt-2 text-xl font-bold text-fg">${cat}</h3></div><div class="flex items-center gap-2"><span class="font-mono text-[11px] text-dim">${items.length}</span><span class="chev font-mono text-accent">›</span></div></summary><ul class="mt-5 pt-4 border-t border-line2 space-y-1">${items.map((it, i) => renderRunbookItem(it, i)).join('')}</ul></details>`
+                    )
+                    .join('');
+            }
+            function renderSkills() {
+                document.getElementById('skillList').innerHTML = skills
+                    .map(
+                        ([name, note, level]) =>
+                            `<div class="row-hover border border-line bg-surface p-4 grid md:grid-cols-12 gap-4 items-center"><div class="md:col-span-3 font-bold text-fg">${name}</div><div class="md:col-span-6 text-sm text-mid leading-6">${note}</div><div class="md:col-span-3 flex items-center gap-3"><div class="h-1.5 bg-line2 flex-1 overflow-hidden"><div class="h-full bg-accent" style="width:${level}%"></div></div><span class="font-mono text-xs text-accent w-9 text-right">${level}</span></div></div>`
+                    )
+                    .join('');
+            }
+            function initReveal() {
+                const io = new IntersectionObserver(
+                    (entries) =>
+                        entries.forEach((e) => {
+                            if (e.isIntersecting) e.target.classList.add('in');
+                        }),
+                    { threshold: 0.1 }
+                );
+                document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+            }
+            renderProjects();
+            renderRunbooks();
+            renderSkills();
+            initReveal();
+            const filters = document.querySelectorAll('.tag-filter');
+            const search = document.getElementById('projectSearch');
+            let activeFilter = 'all';
+            function applyFilter() {
+                const q = search.value.toLowerCase();
+                document.querySelectorAll('.project-card').forEach((card) => {
+                    const cats = card.dataset.cat;
+                    const txt = card.dataset.search;
+                    const okFilter = activeFilter === 'all' || cats.includes(activeFilter);
+                    const okSearch = !q || txt.includes(q);
+                    card.classList.toggle('hide', !(okFilter && okSearch));
+                });
+            }
+            filters.forEach((btn) =>
+                btn.addEventListener('click', () => {
+                    filters.forEach((b) => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.dataset.filter;
+                    applyFilter();
+                })
+            );
+            search.addEventListener('input', applyFilter);
+        </script>
+    </body>
+</html>
