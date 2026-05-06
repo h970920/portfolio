@@ -49,6 +49,7 @@ const logs = [
     'gitbook: card.payprotocol.io / help.payprotocol.io ownership verified',
     'youtube: Paycoin channel contents indexed — shorts & 16:9 videos',
     'ai-lab: AI asset management dashboard deployed — csv import and risk scoring enabled',
+    'firewall-reviewer: policy risk scan deployed — any rules and risky ports flagged',
     'runbook: FortiGate VPN account guide loaded — MFA required',
     'drm: document security workflow indexed — export approval process found',
     'lb: safe.payprotocol.io VIP + SSL offloading case available',
@@ -67,6 +68,17 @@ function pushLog() {
 for (let i = 0; i < 4; i++) pushLog();
 setInterval(pushLog, 1700);
 const projects = [
+    {
+        id: 'CASE-013',
+        title: 'AI 방화벽 정책 위험도 분석 리뷰어',
+        cat: ['network', 'security', 'ops'],
+        period: '2026',
+        severity: 'HIGH',
+        tools: ['FortiGate', 'Firewall Policy', 'CSV Import', 'Risk Scoring', 'JavaScript', 'Security Automation'],
+        summary:
+            'FortiGate 방화벽 정책 CSV를 업로드하면 ANY 정책, 광범위한 출발지·목적지, 위험 포트, 과도한 서비스 허용, 미사용 정책 후보를 자동 탐지하고 정책별 위험도와 개선 우선순위를 시각화하는 웹 솔루션을 제작했습니다.',
+        impact: '수작업 중심의 방화벽 정책 검토 업무를 자동화 가능한 구조로 전환하고, 보안 감사·ISMS 증적·정책 정비 업무에 활용 가능한 포트폴리오 산출물로 구현',
+    },
     {
         id: 'CASE-012',
         title: 'AI 기반 IT 자산관리 자동 분류 시스템',
@@ -244,6 +256,11 @@ const runbooks = {
     ],
 };
 const skills = [
+    [
+        'Firewall Policy Risk Review',
+        'FortiGate 정책 CSV 분석, ANY 정책·위험 포트·과도한 허용 정책 탐지, 리스크 스코어링 대시보드 제작',
+        91,
+    ],
     ['FortiGate / Firewall', '방화벽 정책, VIP, NAT, SSL VPN, 로드밸런싱, 정책 우선순위 기반 트래픽 분석', 90],
     ['Linux Server', 'Rocky Linux, XFS 복구, SSH 보안설정, 계정·권한·로그 기준 설정', 76],
     ['Endpoint Security', 'EPP/ESP/DRM/S1ESP, 문서보안, 매체승인, 파일반출, 출력 워터마크', 82],
