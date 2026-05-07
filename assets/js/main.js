@@ -78,7 +78,7 @@ const projects = [
         summary:
             '이화산업 WMS QR코드 파레트 자산관리 시스템은 창고 내 파레트와 자산을 QR코드 기반으로 등록·조회·관리하고, 입고·보관·출고 흐름에 맞춰 위치와 상태를 추적할 수 있도록 구현한 현장형 업무 자동화 웹앱입니다.',
         impact: 'WMS 운영 화면, QR 기반 식별 구조, 파레트·자산 데이터 모델, 입출고 상태 관리 흐름을 설계하고 Vercel을 통해 배포한 AI-assisted 프로토타이핑 프로젝트',
-        demo: 'https://ewha-9848qldz6-h970920s-projects.vercel.app',
+        demo: 'https://ewha-wms.vercel.app/',
         pdf: './pdf/AI_WMS_QR_Asset_Management_System_Runbook.pdf',
     },
     {
