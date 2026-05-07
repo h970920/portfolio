@@ -69,8 +69,21 @@ for (let i = 0; i < 4; i++) pushLog();
 setInterval(pushLog, 1700);
 const projects = [
     {
+        id: 'CASE-014',
+        title: 'AI WMS QR Asset Management System',
+        cat: ['ops', 'security', 'content'],
+        period: '2026',
+        severity: 'HIGH',
+        tools: ['React', 'JavaScript', 'QR Code', 'WMS', 'SQL Schema', 'Vercel', 'AI-assisted Prototyping'],
+        summary:
+            '이화산업 WMS QR코드 파레트 자산관리 시스템은 창고 내 파레트와 자산을 QR코드 기반으로 등록·조회·관리하고, 입고·보관·출고 흐름에 맞춰 위치와 상태를 추적할 수 있도록 구현한 현장형 업무 자동화 웹앱입니다.',
+        impact: 'WMS 운영 화면, QR 기반 식별 구조, 파레트·자산 데이터 모델, 입출고 상태 관리 흐름을 설계하고 Vercel을 통해 배포한 AI-assisted 프로토타이핑 프로젝트',
+        demo: 'https://ewha-9848qldz6-h970920s-projects.vercel.app',
+        pdf: './pdf/AI_WMS_QR_Asset_Management_System_Runbook.pdf',
+    },
+    {
         id: 'CASE-013',
-        title: 'AI 방화벽 정책 위험도 분석 리뷰어',
+        title: 'AI Firewall Policy Risk Reviewer',
         cat: ['network', 'security', 'ops'],
         period: '2026',
         severity: 'HIGH',
@@ -78,17 +91,21 @@ const projects = [
         summary:
             'FortiGate 방화벽 정책 CSV를 업로드하면 ANY 정책, 광범위한 출발지·목적지, 위험 포트, 과도한 서비스 허용, 미사용 정책 후보를 자동 탐지하고 정책별 위험도와 개선 우선순위를 시각화하는 웹 솔루션을 제작했습니다.',
         impact: '수작업 중심의 방화벽 정책 검토 업무를 자동화 가능한 구조로 전환하고, 보안 감사·ISMS 증적·정책 정비 업무에 활용 가능한 포트폴리오 산출물로 구현',
+        demo: 'https://h970920.github.io/firewall-policy-risk-reviewer/',
+        pdf: './pdf/AI_Firewall_Policy_Risk_Reviewer_Runbook.pdf',
     },
     {
         id: 'CASE-012',
-        title: 'AI 기반 IT 자산관리 자동 분류 시스템',
+        title: 'AI-Powered IT Asset Management System',
         cat: ['ops', 'security', 'content'],
         period: '2026',
         severity: 'LOW',
-        tools: ['HTML', 'CSS', 'JavaScript', 'CSV Import', 'AI Rules', 'Asset Dashboard'],
+        tools: ['HTML', 'CSS', 'JavaScript', 'CSV Import', 'AI Rules', 'Asset Dashboard', 'GitHub Pages'],
         summary:
             'IT 자산 데이터를 CSV로 업로드하면 자산 유형, 사용 상태, 점검 필요 여부, 리스크 등급을 자동 분류하고 대시보드 형태로 시각화하는 AI 기반 IT 자산관리 웹 솔루션을 제작했습니다.',
         impact: 'IT 자산 현행화, 불용자산 식별, 보안 점검 우선순위 산정, 자산관리 업무 자동화 가능성을 포트폴리오 프로젝트로 구현',
+        demo: 'https://h970920.github.io/ai-it-asset-manager/',
+        pdf: './pdf/AI_Powered_IT_Asset_Management_System_Runbook.pdf',
     },
     {
         id: 'CASE-001',
@@ -213,6 +230,11 @@ const projects = [
     },
 ];
 const runbooks = {
+    'AI LAB Runbooks': [
+        'AI Firewall Policy Risk Reviewer Runbook',
+        'AI-Powered IT Asset Management System Runbook',
+        'AI WMS QR Asset Management System Runbook',
+    ],
     '보안·네트워크': [
         'Fortigate VPN계정 생성 가이드',
         'Fortigate UTM 정책 생성 매뉴얼',
@@ -280,6 +302,9 @@ const skills = [
 ];
 
 const linkMap = {
+    'AI Firewall Policy Risk Reviewer Runbook': './pdf/AI_Firewall_Policy_Risk_Reviewer_Runbook.pdf',
+    'AI-Powered IT Asset Management System Runbook': './pdf/AI_Powered_IT_Asset_Management_System_Runbook.pdf',
+    'AI WMS QR Asset Management System Runbook': './pdf/AI_WMS_QR_Asset_Management_System_Runbook.pdf',
     'Fortigate VPN계정 생성 가이드': './pdf/Fortigate_VPN계정_생성_가이드.pdf',
     'Fortigate UTM 정책 생성 매뉴얼': './pdf/Fortigate_UTM_정책_생성_메뉴얼_.pdf',
     'FortiClient VPN BO 연결 매뉴얼': './pdf/FortiClient_(VPN)_BO연결_메뉴얼_.pdf',
@@ -327,12 +352,59 @@ function sevClass(s) {
 }
 function renderProjects() {
     const grid = document.getElementById('projectGrid');
+
     grid.innerHTML = projects
-        .map(
-            (p, i) =>
-                `<article class="project-card reveal corner border border-line bg-surface p-6 hover:bg-surface2 transition-colors ${i < 2 ? 'col-span-12 lg:col-span-6' : 'col-span-12 md:col-span-6 lg:col-span-4'}" data-cat="${p.cat.join(' ')}" data-search="${(p.title + p.summary + p.tools.join(' ') + p.impact).toLowerCase()}"><span class="c1"></span><span class="c2"></span><div class="flex items-center justify-between mb-4"><span class="font-mono text-[10px] text-dim uppercase tracking-widest">// ${p.id}</span><span class="font-mono text-[10px] ${sevClass(p.severity)}">◆ ${p.severity}</span></div><div class="font-mono text-[11px] text-accent mb-2">${p.period}</div><h3 class="font-bold text-fg leading-tight mb-4 ${i < 2 ? 'text-2xl md:text-3xl' : 'text-xl'}">${p.title}</h3><p class="text-mid text-sm leading-7 mb-5">${p.summary}</p><div class="flex flex-wrap gap-1.5 mb-5">${p.tools.map((t) => `<span class="font-mono text-[10px] px-2 py-1 border border-line2 text-mid">${t}</span>`).join('')}</div><div class="border-l-2 border-accent bg-accent/5 p-3 text-sm text-fg/75 leading-6"><span class="font-mono text-accent">→</span> ${p.impact}</div></article>`
-        )
+        .map((p, i) => {
+            const demoButton = p.demo
+                ? `<a href="${p.demo}" target="_blank" rel="noopener" class="px-3 py-2 border border-accent/30 bg-accent/10 text-accent text-xs font-mono hover:bg-accent hover:text-ink transition">OPEN</a>`
+                : '';
+
+            const pdfButton = p.pdf
+                ? `<a href="${p.pdf}" target="_blank" rel="noopener" class="px-3 py-2 border border-accent4/30 bg-accent4/10 text-accent4 text-xs font-mono hover:bg-accent4 hover:text-ink transition">PDF</a>`
+                : '';
+
+            return `<article class="project-card reveal corner border border-line bg-surface p-6 hover:bg-surface2 transition-colors ${
+                i < 3 ? 'col-span-12 lg:col-span-4' : 'col-span-12 md:col-span-6 lg:col-span-4'
+            }" data-cat="${p.cat.join(' ')}" data-search="${(p.title + p.summary + p.tools.join(' ') + p.impact).toLowerCase()}">
+                <span class="c1"></span>
+                <span class="c2"></span>
+
+                <div class="flex items-center justify-between mb-4">
+                    <span class="font-mono text-[10px] text-dim uppercase tracking-widest">// ${p.id}</span>
+                    <span class="font-mono text-[10px] ${sevClass(p.severity)}">◆ ${p.severity}</span>
+                </div>
+
+                <div class="font-mono text-[11px] text-accent mb-2">${p.period}</div>
+
+                <h3 class="font-bold text-fg leading-tight mb-4 ${i < 3 ? 'text-2xl' : 'text-xl'}">
+                    ${p.title}
+                </h3>
+
+                <p class="text-mid text-sm leading-7 mb-5">
+                    ${p.summary}
+                </p>
+
+                <div class="flex flex-wrap gap-1.5 mb-5">
+                    ${p.tools
+                        .map(
+                            (t) =>
+                                `<span class="font-mono text-[10px] px-2 py-1 border border-line2 text-mid">${t}</span>`
+                        )
+                        .join('')}
+                </div>
+
+                <div class="border-l-2 border-accent bg-accent/5 p-3 text-sm text-fg/75 leading-6 mb-5">
+                    <span class="font-mono text-accent">→</span> ${p.impact}
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    ${demoButton}
+                    ${pdfButton}
+                </div>
+            </article>`;
+        })
         .join('');
+
     setTimeout(initReveal, 0);
 }
 function renderRunbooks() {
