@@ -1,6 +1,7 @@
 const bootLines = [
     '[ OK ] Initializing security operations portfolio...',
     '[ OK ] Loading FortiGate / SSL VPN case files...',
+    '[ OK ] Loading AI packet traffic reviewer demo...',
     '[ OK ] Mounting Linux recovery notes...',
     '[ OK ] Indexing GitBook and Paycoin contents...',
     '[ OK ] Verifying resume profile: HONG SEONGWON',
@@ -50,6 +51,7 @@ const logs = [
     'youtube: Paycoin channel contents indexed — shorts & 16:9 videos',
     'ai-lab: AI asset management dashboard deployed — csv import and risk scoring enabled',
     'firewall-reviewer: policy risk scan deployed — any rules and risky ports flagged',
+    'packet-reviewer: pcap demo deployed — dns/http/tls flow and ioc candidates analyzed',
     'runbook: FortiGate VPN account guide loaded — MFA required',
     'drm: document security workflow indexed — export approval process found',
     'lb: safe.payprotocol.io VIP + SSL offloading case available',
@@ -69,6 +71,20 @@ for (let i = 0; i < 4; i++) pushLog();
 setInterval(pushLog, 1700);
 const projects = [
     {
+        id: 'CASE-015',
+        title: 'AI Packet Traffic Risk Reviewer',
+        cat: ['network', 'security', 'ops'],
+        period: '2026',
+        severity: 'CRITICAL',
+        tools: ['Python', 'Streamlit', 'PCAP/PCAPNG', 'DNS/HTTP/TLS', 'IOC Matching', 'FortiGate Log', 'Zeek Log'],
+        summary:
+            'PCAP/PCAPNG 기반 네트워크 트래픽을 분석해 IP·Port·Protocol·DNS·HTTP·TLS 흐름과 IOC 후보를 추출하고, 룰 기반 탐지 및 AI 스타일 보안 위험 요약 리포트를 제공하는 패킷 분석 보조 도구를 제작했습니다.',
+        impact: '민감한 PCAP 파일은 외부 서버에 업로드하지 않도록 로컬 Windows 분석 버전과 샘플 데이터 기반 Streamlit 웹 데모 버전을 분리 설계한 보안 운영 자동화 프로젝트',
+        demo: 'https://ai-packet-traffic-risk-reviewer.streamlit.app/',
+        code: 'https://github.com/h970920/ai-packet-traffic-risk-reviewer',
+        pdf: './pdf/AI_Packet_Traffic_Risk_Reviewer_Runbook.pdf',
+    },
+    {
         id: 'CASE-014',
         title: 'AI WMS QR Asset Management System',
         cat: ['ops', 'security', 'content'],
@@ -78,7 +94,7 @@ const projects = [
         summary:
             '이화산업 WMS QR코드 파레트 자산관리 시스템은 창고 내 파레트와 자산을 QR코드 기반으로 등록·조회·관리하고, 입고·보관·출고 흐름에 맞춰 위치와 상태를 추적할 수 있도록 구현한 현장형 업무 자동화 웹앱입니다.',
         impact: 'WMS 운영 화면, QR 기반 식별 구조, 파레트·자산 데이터 모델, 입출고 상태 관리 흐름을 설계하고 Vercel을 통해 배포한 AI-assisted 프로토타이핑 프로젝트',
-        demo: 'https://ewha-wms.vercel.app/',
+        demo: 'https://ewha-9848qldz6-h970920s-projects.vercel.app',
         pdf: './pdf/AI_WMS_QR_Asset_Management_System_Runbook.pdf',
     },
     {
@@ -231,6 +247,7 @@ const projects = [
 ];
 const runbooks = {
     'AI LAB Runbooks': [
+        'AI Packet Traffic Risk Reviewer Runbook',
         'AI Firewall Policy Risk Reviewer Runbook',
         'AI-Powered IT Asset Management System Runbook',
         'AI WMS QR Asset Management System Runbook',
@@ -279,6 +296,11 @@ const runbooks = {
 };
 const skills = [
     [
+        'Packet Traffic Risk Review',
+        'PCAP/PCAPNG 기반 DNS·HTTP·TLS 흐름 분석, IOC 후보 추출, FortiGate·Zeek 로그 상관분석, AI 스타일 위험 리포트 생성',
+        93,
+    ],
+    [
         'Firewall Policy Risk Review',
         'FortiGate 정책 CSV 분석, ANY 정책·위험 포트·과도한 허용 정책 탐지, 리스크 스코어링 대시보드 제작',
         91,
@@ -302,6 +324,7 @@ const skills = [
 ];
 
 const linkMap = {
+    'AI Packet Traffic Risk Reviewer Runbook': './pdf/AI_Packet_Traffic_Risk_Reviewer_Runbook.pdf',
     'AI Firewall Policy Risk Reviewer Runbook': './pdf/AI_Firewall_Policy_Risk_Reviewer_Runbook.pdf',
     'AI-Powered IT Asset Management System Runbook': './pdf/AI_Powered_IT_Asset_Management_System_Runbook.pdf',
     'AI WMS QR Asset Management System Runbook': './pdf/AI_WMS_QR_Asset_Management_System_Runbook.pdf',
@@ -363,8 +386,12 @@ function renderProjects() {
                 ? `<a href="${p.pdf}" target="_blank" rel="noopener" class="px-3 py-2 border border-accent4/30 bg-accent4/10 text-accent4 text-xs font-mono hover:bg-accent4 hover:text-ink transition">PDF</a>`
                 : '';
 
+            const codeButton = p.code
+                ? `<a href="${p.code}" target="_blank" rel="noopener" class="px-3 py-2 border border-line2 text-mid text-xs font-mono hover:border-accent hover:text-accent transition">CODE</a>`
+                : '';
+
             return `<article class="project-card reveal corner border border-line bg-surface p-6 hover:bg-surface2 transition-colors ${
-                i < 3 ? 'col-span-12 lg:col-span-4' : 'col-span-12 md:col-span-6 lg:col-span-4'
+                i < 4 ? 'col-span-12 md:col-span-6 lg:col-span-3' : 'col-span-12 md:col-span-6 lg:col-span-4'
             }" data-cat="${p.cat.join(' ')}" data-search="${(p.title + p.summary + p.tools.join(' ') + p.impact).toLowerCase()}">
                 <span class="c1"></span>
                 <span class="c2"></span>
@@ -376,7 +403,7 @@ function renderProjects() {
 
                 <div class="font-mono text-[11px] text-accent mb-2">${p.period}</div>
 
-                <h3 class="font-bold text-fg leading-tight mb-4 ${i < 3 ? 'text-2xl' : 'text-xl'}">
+                <h3 class="font-bold text-fg leading-tight mb-4 ${i < 4 ? 'text-2xl' : 'text-xl'}">
                     ${p.title}
                 </h3>
 
@@ -399,6 +426,7 @@ function renderProjects() {
 
                 <div class="flex flex-wrap gap-2">
                     ${demoButton}
+                    ${codeButton}
                     ${pdfButton}
                 </div>
             </article>`;
